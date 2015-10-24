@@ -20,6 +20,10 @@ public class ButtonScript : MonoBehaviour {
         {
             Application.LoadLevel("GameScene");
         }
+		else if (name == "StoreButton")
+		{
+			Application.LoadLevel("StoreScene");		
+		}
     }
     // Use this for initialization
     void Start () {
