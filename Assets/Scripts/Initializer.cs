@@ -15,21 +15,20 @@ public class Initializer : MonoBehaviour
 
     // Use this for initialization
     void Start () {
-        SetFigure("h2",1,3);
-        SetFigure("g2", 5, 4);
-        SetFigure("v2", 5, 5);
-        SetFigure("v3", 6, 1);
-        SetFigure("g3", 1, 1);
-        SetFigure("v3", 3, 2);
-        SetFigure("v2", 1, 4);
-        SetFigure("g3", 1, 6);
+     
+        SetFigure("v3", 1, 1);
+        SetFigure("g2", 1, 5);
+        SetFigure("g2", 1, 4);
+        SetFigure("g2", 3, 4);
+        SetFigure("g2", 3, 5);
+        SetFigure("v2", 3, 1);
+        SetFigure("v2", 4, 2);
+        SetFigure("g3", 4, 1);
+        SetFigure("v3", 6, 3);
+        SetFigure("h2", 2, 3);
 
     }
 
-    Vector3 SetIn(int x, int y)
-    {
-        return new Vector3(2, (float)2.4 - y * 1, 90);
-    }
 
     void SetFigure(string figure, int x,int y)
     {
@@ -57,7 +56,8 @@ public class Initializer : MonoBehaviour
         if (figure == "g2") obj = block4;
         if (figure == "h2") obj = block5;
         var t = Instantiate(obj);
-        t.transform.position = SetIn(0, 3);
+        t.GetComponent<BlockScript>().codeName = figure.ToString() + x.ToString() + y.ToString();
+        t.tag = "Block";
         t.transform.parent = this.transform;
         t.transform.localPosition = new Vector3(X,Y, 0);
         t.transform.localScale = new Vector3(Scalar, Scalar, 1);
