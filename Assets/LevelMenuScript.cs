@@ -4,6 +4,9 @@ using System.Collections.Generic;
 public class LevelMenuScript : MonoBehaviour {
     public Texture OpenLevel;
     public Texture LockLevel;
+    public Texture OneStar;
+    public Texture TwoStar;
+    public Texture ThreeStar;
     public float VerticalSpace;
     public float HorisontalSpace;
     public float BlockSpace;
@@ -17,7 +20,7 @@ public class LevelMenuScript : MonoBehaviour {
         buttons.Add(first);
         for (int i = 2; i <= 100; i++)
         {
-
+            // width
             if ((i - 1) % 3 != 0)
             {
                 newObj = Instantiate(buttons[buttons.Count - 1]);
@@ -29,6 +32,7 @@ public class LevelMenuScript : MonoBehaviour {
             }
             else if ((i - 1) % 12 != 0)
             {
+                // in new line
                 newObj = Instantiate(buttons[buttons.Count - 3]);
                 newObj.transform.parent = this.transform;
                 newObj.transform.FindChild("Text").GetComponent<UnityEngine.UI.Text>().text = i.ToString();
@@ -47,7 +51,10 @@ public class LevelMenuScript : MonoBehaviour {
             }
 
         }
-        buttons[0].GetComponent<UnityEngine.UI.RawImage>().texture = OpenLevel;
+        buttons[0].GetComponent<UnityEngine.UI.RawImage>().texture = OneStar;
+        buttons[1].GetComponent<UnityEngine.UI.RawImage>().texture = TwoStar;
+        buttons[2].GetComponent<UnityEngine.UI.RawImage>().texture = ThreeStar;
+        buttons[3].GetComponent<UnityEngine.UI.RawImage>().texture = OpenLevel;
     }
 	// Use this for initialization
 	void Start () {
@@ -59,7 +66,7 @@ public class LevelMenuScript : MonoBehaviour {
 
         if (!inited)
         {
-            Init();
+            //Init();
             inited = true;
         }
     }
