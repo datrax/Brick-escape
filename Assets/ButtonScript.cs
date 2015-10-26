@@ -2,6 +2,10 @@
 using System.Collections;
 
 public class ButtonScript : MonoBehaviour {
+    public void LoadLevel(string name)
+    {
+        Application.LoadLevel(name);
+    }
     void OnClick()
     {
         if (name == "LevelsButton")
