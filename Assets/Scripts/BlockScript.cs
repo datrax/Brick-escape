@@ -100,7 +100,7 @@ public class BlockScript : MonoBehaviour
     void OnMouseDrag()
     {
               
-
+        if(GameObject.Find("Solver").GetComponent<SolveThePuzzle>().solving)return;
         Vector2 pos;
         GameObject myCanvas = transform.parent.gameObject;
         RectTransformUtility.ScreenPointToLocalPointInRectangle(myCanvas.transform as RectTransform, Input.mousePosition, Camera.main, out pos);

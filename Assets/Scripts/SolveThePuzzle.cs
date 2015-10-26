@@ -5,7 +5,9 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading;
+using UnityEditor.VersionControl;
 using Debug = UnityEngine.Debug;
+using ThreadPriority = System.Threading.ThreadPriority;
 
 public class SolveThePuzzle : MonoBehaviour
 {
@@ -13,38 +15,67 @@ public class SolveThePuzzle : MonoBehaviour
     // Use this for initialization
     void Start()
     {
-
+        GameObject.Find("LoadAnimation").GetComponent<SpriteRenderer>().enabled = (false);
     }
 
+    void OnApplicationQuit()
+    {
+        if (t != null)
+        {
+            t.Abort();
+        }
+    }
+
+    public bool solved = false;
+    public bool solving = false;
     // Update is called once per frame
     void Update()
     {
-
-    }
-
-    private List<string> steps=new List<string>();
-    public int stepNumber=0;
-    public void Solve()
-    {
-     
-        string level = MakeCurrentLevelMap();
-        Board initial = getPuzzles(level);
-        var sln = FindSolutionBFS(initial);
-
-        List<string> answer = new List<string>();
-        while (sln.Moves.Count > 0)
+        if (solving)
         {
-            var move = sln.Moves.Pop();
-            move.RenderToConsole(answer);
+
+            GameObject.Find("LoadAnimation").transform.Rotate(0, 0, 15);
 
         }
-        steps = MakeMovingMap(answer);
-        KeepSolving();      
+        if (solved)
+        {
+            solved = false;
+            KeepSolving();
+            GameObject.Find("LoadAnimation").GetComponent<SpriteRenderer>().enabled = (false);
+        }
     }
+
+    private List<string> steps = new List<string>();
+    public int stepNumber = 0;
+    private Thread t;
+    public void Solve()
+    {
+        GameObject.Find("LoadAnimation").GetComponent<SpriteRenderer>().enabled = (true);
+        string level = MakeCurrentLevelMap();
+        Board initial = getPuzzles(level);
+        t = new Thread(() =>
+          {
+              solving = true;
+              var sln = FindSolutionBFS(initial);
+              List<string> answer = new List<string>();
+              while (sln.Moves.Count > 0)
+              {
+                  var move = sln.Moves.Pop();
+                  move.RenderToConsole(answer);
+
+              }
+              steps = MakeMovingMap(answer);
+              solved = true;
+              //  solving = false;
+          });
+        t.Start();
+        // KeepSolving();      
+    }
+
 
     public void KeepSolving()
     {
-        var t=steps[stepNumber];
+        var t = steps[stepNumber];
         var objs = GameObject.FindGameObjectsWithTag("Block");
         foreach (var ob in objs)
         {
@@ -52,15 +83,12 @@ public class SolveThePuzzle : MonoBehaviour
             {
                 int x = Int32.Parse(t.Substring(6, 1));
                 int y = Int32.Parse(t.Substring(7, 1));
-                print(ob.GetComponent<BlockScript>().codeName);
-                print(x+" "+y);
-                print("-----");
                 ob.GetComponent<BlockScript>().StartMovingTo(x, y);
                 stepNumber++;
                 return;
             }
         }
-        
+
 
     }
 
