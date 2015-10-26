@@ -5,7 +5,6 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading;
-using UnityEditor.VersionControl;
 using Debug = UnityEngine.Debug;
 using ThreadPriority = System.Threading.ThreadPriority;
 
