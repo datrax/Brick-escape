@@ -27,14 +27,19 @@ public class SolveThePuzzle : MonoBehaviour
 
     public bool solved = false;
     public bool solving = false;
+    int time = 0;
     // Update is called once per frame
     void Update()
     {
-        if (solving)
+        if (solving && time == 1)
         {
 
-            GameObject.Find("LoadAnimation").transform.Rotate(0, 0, 15);
-
+            GameObject.Find("LoadAnimation").transform.Rotate(0, 0, -25.7f);
+            time = 0;
+        }
+        else
+        {
+            time = 1;
         }
         if (solved)
         {
