@@ -20,10 +20,10 @@ public class Initializer : MonoBehaviour
 
         //level 2 was changed
         //pay attention  solution searching for level 100 takes more than 1 minute
-        
+        var level = BoxesScript.ApplicationModel.LoadLevel;
 
-        LoadLevel(BoxesScript.ApplicationModel.LoadLevel);
-
+        LoadLevel(level);
+        GameObject.Find("PuzzleNumber").GetComponent<UnityEngine.UI.Text>().text = level.ToString();
     }
 
     public void LoadLevel(int number)
