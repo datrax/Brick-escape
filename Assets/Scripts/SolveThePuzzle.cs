@@ -34,7 +34,7 @@ public class SolveThePuzzle : MonoBehaviour
         if (solving && time == 1)
         {
 
-            GameObject.Find("LoadAnimation").transform.Rotate(0, 0, -25.7f);
+            GameObject.Find("LoadAnimation").transform.Rotate(0, 0, 25.7f);
             time = 0;
         }
         else

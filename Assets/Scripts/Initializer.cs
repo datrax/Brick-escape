@@ -60,20 +60,34 @@ public class Initializer : MonoBehaviour
         }
         var Y = 160 - 46*yc- cellSize * (y-1);
         var X = -135 + 46*xc + cellSize*(x - 1);
-
-        GameObject obj=new GameObject();
-        if (figure == "v2") obj = block1;
-        if (figure == "g3") obj = block2;
-        if (figure == "v3") obj = block3;
-        if (figure == "g2") obj = block4;
-        if (figure == "h2") obj = block5;
-        var t = Instantiate(obj);
-        t.GetComponent<BlockScript>().codeName = figure.ToString() + x.ToString() + y.ToString();
-        t.tag = "Block";
-        t.transform.parent = this.transform;
-        t.transform.localPosition = new Vector3(X,Y, 0);
-        t.transform.localScale = new Vector3(Scalar, Scalar, 1);
-        t.GetComponent<BlockScript>().MoveToGrid();
+        GameObject t = null;
+        switch (figure)
+        {
+            case "v2":
+                t = Instantiate(block1);
+                break;
+            case "g3":
+                t = Instantiate(block2);
+                break;
+            case "v3":
+                t = Instantiate(block3);
+                break;
+            case "g2":
+                t = Instantiate(block4);
+                break;
+            case "h2":
+                t = Instantiate(block5);
+                break;
+        }
+        if (t != null)
+        {
+            t.GetComponent<BlockScript>().codeName = figure.ToString() + x.ToString() + y.ToString();
+            t.tag = "Block";
+            t.transform.parent = this.transform;
+            t.transform.localPosition = new Vector3(X, Y, 0);
+            t.transform.localScale = new Vector3(Scalar, Scalar, 1);
+            t.GetComponent<BlockScript>().MoveToGrid();
+        }
     }
     // Update is called once per frame
     void Update () {
