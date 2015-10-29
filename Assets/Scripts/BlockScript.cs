@@ -17,7 +17,8 @@ public class BlockScript : MonoBehaviour
 	{
         GetComponent<Rigidbody2D>().isKinematic = true;
     }
-	
+
+    private Vector3 oldpos;
 	// Update is called once per frame
 	void Update ()
 	{
@@ -98,20 +99,25 @@ public class BlockScript : MonoBehaviour
 
     void OnMouseDrag()
     {
-           
-        
-        if(GameObject.Find("Solver").GetComponent<SolveThePuzzle>().solving)return;
+       
+        if (GameObject.Find("Solver").GetComponent<SolveThePuzzle>().solving)return;
         Vector2 pos;
         GameObject myCanvas = transform.parent.gameObject;
         RectTransformUtility.ScreenPointToLocalPointInRectangle(myCanvas.transform as RectTransform, Input.mousePosition, Camera.main, out pos);
         var poss = myCanvas.transform.TransformPoint(pos);
+      //  if(poss.x - oldpos.x>0)return;
+
+        oldpos =poss;
         GetComponent<Rigidbody2D>()
             .MovePosition((name[0] == 'v')
                 ? new Vector2(transform.position.x, poss.y)
                 : new Vector2(poss.x, transform.position.y));
     }
 
-
+ /*   void checkMovement(int pos, string direction)
+    {
+        
+    }*/
     private Vector3 GetLocalPosition()
     {
         var t = GetComponent<RectTransform>();
@@ -160,12 +166,13 @@ public class BlockScript : MonoBehaviour
     void OnMouseDown()
     {
         GetComponent<Rigidbody2D>().isKinematic = false;
+        oldpos = transform.position;
     }
     void OnMouseUp()
     {
         MoveToGrid();
         GetComponent<Rigidbody2D>().isKinematic = true;
-        
+        oldpos = Vector3.zero;
     }
 
 }
