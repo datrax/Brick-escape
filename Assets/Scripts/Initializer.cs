@@ -121,13 +121,18 @@ public class Initializer : MonoBehaviour
         levels.Add("g231g251g332h213g254g235g326v215v221v233v243v255v262v265");
         levels.Add("g231g322h213g255g226g256v211v233v243v245v351v261");
 
-        LoadLevel(LevelNumber);
+        LoadLevel(BoxesScript.ApplicationModel.LoadLevel);
 
     }
 
-    void LoadLevel(int number)
+    public void LoadLevel(int number)
     {
         string level = levels[number - 1];
+        var oldBlocks = GameObject.FindGameObjectsWithTag("Block");
+        foreach (var block in oldBlocks)
+        {
+            Destroy(block);
+        }
         for (int i = 0; i < level.Length; i+=4)
         {
             int x = int.Parse(level.Substring(i+2, 1));
@@ -167,6 +172,7 @@ public class Initializer : MonoBehaviour
         t.transform.parent = this.transform;
         t.transform.localPosition = new Vector3(X,Y, 0);
         t.transform.localScale = new Vector3(Scalar, Scalar, 1);
+        t.GetComponent<BlockScript>().MoveToGrid();
     }
     // Update is called once per frame
     void Update () {

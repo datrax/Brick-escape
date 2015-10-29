@@ -49,6 +49,7 @@ public class SolveThePuzzle : MonoBehaviour
     private Thread t;
     public void Solve()
     {
+        if(solving)return;        
         GameObject.Find("LoadAnimation").GetComponent<SpriteRenderer>().enabled = (true);
         string level = MakeCurrentLevelMap();
         Board initial = getPuzzles(level);

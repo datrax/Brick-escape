@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 using System.Collections;
 using UnityEngine.UI;
 public class BoxesScript : MonoBehaviour
@@ -9,6 +10,15 @@ public class BoxesScript : MonoBehaviour
     void Start()
     {
         ShowBoxes();
+    }
+    public class ApplicationModel
+    {
+        static public int LoadLevel = 1;   
+    }
+    public void LoadLvlv(int number)
+    {
+        ApplicationModel.LoadLevel = number;
+        Application.LoadLevel("GameScene");
     }
 
     public void ShowBoxes()
@@ -29,9 +39,11 @@ public class BoxesScript : MonoBehaviour
             {
                 var box = GameObject.Find("Boxes (" + i + ")").transform.FindChild("Box (" + j + ")");
                 box.FindChild("Text").GetComponent<Text>().text = (count).ToString();
+                box.GetComponent<Button>().onClick.RemoveAllListeners();
+                var count1 = count;
+                box.GetComponent<Button>().onClick.AddListener(()=> LoadLvlv(count1));
                 count++;
             }
         }
-        
     }
 }

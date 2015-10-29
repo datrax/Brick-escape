@@ -62,9 +62,8 @@ public class BlockScript : MonoBehaviour
 	            minY = pos.y;
 	        }
 	        transform.localPosition = new Vector3(Mathf.Clamp(transform.localPosition.x  + movX, minX, maxX),
-               Mathf.Clamp(transform.localPosition.y - movY, minY,maxY));
-	  
-	    }
+               Mathf.Clamp(transform.localPosition.y - movY, minY,maxY));      
+        }
 	}
 
     public void StartMovingTo(int x,int y)
@@ -99,7 +98,8 @@ public class BlockScript : MonoBehaviour
 
     void OnMouseDrag()
     {
-              
+           
+        
         if(GameObject.Find("Solver").GetComponent<SolveThePuzzle>().solving)return;
         Vector2 pos;
         GameObject myCanvas = transform.parent.gameObject;
@@ -136,7 +136,7 @@ public class BlockScript : MonoBehaviour
         print((160 - (t.localPosition.y - (46 * yc))) / cellSize);
         return new Vector3((float)Math.Round(cellX, 0),(float) Math.Round(cellY, 0));
     }
-    private void MoveToGrid()
+    public void MoveToGrid()
     {
         var vertical = (name[0] == 'v');
    
@@ -162,9 +162,10 @@ public class BlockScript : MonoBehaviour
         GetComponent<Rigidbody2D>().isKinematic = false;
     }
     void OnMouseUp()
-    {       
-         GetComponent<Rigidbody2D>().isKinematic = true;
-         MoveToGrid();
+    {
+        MoveToGrid();
+        GetComponent<Rigidbody2D>().isKinematic = true;
+        
     }
 
 }
