@@ -19,12 +19,23 @@ public class BlockScript : MonoBehaviour
     }
 
     private Vector3 oldpos;
+
+    void ShowCongratulationMessage()
+    {
+        //TODO
+    }
 	// Update is called once per frame
 	void Update ()
 	{
 	    if (win)
 	    {
             transform.localPosition = (new Vector2(transform.localPosition.x + Time.deltaTime*100, transform.localPosition.y));
+	        if (transform.localPosition.x > 245)
+	        {
+	            win = !win;
+	            ShowCongratulationMessage();
+	        };
+
 	    }
 	    if (solving)
 	    {
