@@ -28,12 +28,9 @@ public class Initializer : MonoBehaviour
 
     public void LoadLevel(int number)
     {
+        DestroyOldBlocks();
         string level = Keeper.Levels[number - 1];
-        var oldBlocks = GameObject.FindGameObjectsWithTag("Block");
-        foreach (var block in oldBlocks)
-        {
-            Destroy(block);
-        }
+        
         for (int i = 0; i < level.Length; i+=4)
         {
             int x = int.Parse(level.Substring(i+2, 1));
@@ -42,6 +39,14 @@ public class Initializer : MonoBehaviour
         }
     }
 
+    public void DestroyOldBlocks()
+    {
+        var oldBlocks = GameObject.FindGameObjectsWithTag("Block");
+        foreach (var block in oldBlocks)
+        {
+            Destroy(block);
+        }
+    }
     void SetFigure(string figure, int x,int y)
     {
         var size = int.Parse(figure[1].ToString());
