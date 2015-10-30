@@ -42,6 +42,10 @@ public class Initializer : MonoBehaviour
     {
         DestroyOldBlocks();
         CongratMessage.SetActive(true);
+        GameObject.Find("Moves").GetComponent<UnityEngine.UI.Text>().text = "Moves: " + BoxesScript.ApplicationModel.steps;
+        /////////////////////////////////////////////////////////////////////////***************************TO EDIT!!!********************////
+        GameObject.Find("Best").GetComponent<UnityEngine.UI.Text>().text = "Best: " + BoxesScript.ApplicationModel.steps;
+        GameObject.Find("Perfect").GetComponent<UnityEngine.UI.Text>().text = "Perfect: " + Keeper.solvers[BoxesScript.ApplicationModel.LoadLevel - 1].Count.ToString();
     }
     public void DestroyOldBlocks()
     {

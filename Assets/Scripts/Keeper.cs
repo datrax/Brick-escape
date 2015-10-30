@@ -112,7 +112,7 @@ namespace Assets.Scripts
             37
         };
 
-        public new static List<string> Levels = new List<string>()
+        public static List<string> Levels = new List<string>()
         {
             "g221h243g255g346v211v222v232v234v241v244v361",
             "g221g222g216g246g234h233v241v323v352v235v364",
