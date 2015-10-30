@@ -13,7 +13,9 @@ public class BoxesScript : MonoBehaviour
     }
     public class ApplicationModel
     {
-        static public int LoadLevel = 1;   
+        static public int LoadLevel = 1;
+        public static string LastBlockMoved = "";
+        public static int steps =0;
     }
     public void LoadLvlv(int number)
     {

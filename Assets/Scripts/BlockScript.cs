@@ -2,6 +2,7 @@
 using UnityEngine;
 using System.Collections;
 using System.Runtime.InteropServices;
+using Assets.Scripts;
 using UnityEngine.UI;
 
 public class BlockScript : MonoBehaviour
@@ -16,7 +17,10 @@ public class BlockScript : MonoBehaviour
     void Start ()
 	{
         GetComponent<Rigidbody2D>().isKinematic = true;
-    }
+        GameObject.Find("MinimalStep").GetComponent<Text>().text = "minimal : " +
+                                                                   Keeper.SolutionCounter[
+                                                                       BoxesScript.ApplicationModel.LoadLevel - 1];
+	}
 
     private Vector3 oldpos;
 
@@ -33,7 +37,8 @@ public class BlockScript : MonoBehaviour
 	        if (transform.localPosition.x > 245)
 	        {
 	            win = !win;
-	            ShowCongratulationMessage();
+                GameObject.Find("Step").GetComponent<Text>().text = "moves : " + ++BoxesScript.ApplicationModel.steps;
+                ShowCongratulationMessage();
 	        };
 
 	    }
@@ -44,9 +49,12 @@ public class BlockScript : MonoBehaviour
 	        {
                 solving = false;
                 MoveToGrid();
-                if (!win)
-                    GameObject.Find("Solver").GetComponent<SolveThePuzzle>().KeepSolving();
-                return;
+	            if (!win)
+	            {
+	                GameObject.Find("Solver").GetComponent<SolveThePuzzle>().KeepSolving();
+                    GameObject.Find("Step").GetComponent<Text>().text = "moves : " + ++BoxesScript.ApplicationModel.steps;
+                }
+	            return;
             }
 	        
             var minX = transform.localPosition.x;
@@ -178,12 +186,18 @@ public class BlockScript : MonoBehaviour
     {
         GetComponent<Rigidbody2D>().isKinematic = false;
         oldpos = transform.position;
+        BoxesScript.ApplicationModel.LastBlockMoved = codeName;
     }
     void OnMouseUp()
     {
         MoveToGrid();
         GetComponent<Rigidbody2D>().isKinematic = true;
         oldpos = Vector3.zero;
+        if (codeName.Substring(0, 2) == BoxesScript.ApplicationModel.LastBlockMoved.Substring(0, 2) &&
+            codeName.Substring(2, 2) != BoxesScript.ApplicationModel.LastBlockMoved.Substring(2, 2))
+        {
+            GameObject.Find("Step").GetComponent<Text>().text="moves : " + ++BoxesScript.ApplicationModel.steps;
+        }
     }
 
 }
