@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading;
+using Assets.Scripts;
 using Debug = UnityEngine.Debug;
 using ThreadPriority = System.Threading.ThreadPriority;
 
@@ -55,7 +56,7 @@ public class SolveThePuzzle : MonoBehaviour
     public void Solve()
     {
         if(solving)return;        
-        GameObject.Find("LoadAnimation").GetComponent<SpriteRenderer>().enabled = (true);
+      /*  GameObject.Find("LoadAnimation").GetComponent<SpriteRenderer>().enabled = (true);
         string level = MakeCurrentLevelMap();
         Board initial = getPuzzles(level);
         t = new Thread(() =>
@@ -72,11 +73,27 @@ public class SolveThePuzzle : MonoBehaviour
               steps = MakeMovingMap(answer);
               solved = true;
               //  solving = false;
-          });
-        t.Start();
+          });*/
+        solving = true;
+        steps = Keeper.solvers[BoxesScript.ApplicationModel.LoadLevel - 1];
+        GameObject.Find("Canvas").GetComponent<Initializer>().LoadLevel(BoxesScript.ApplicationModel.LoadLevel);
+        //SetDefault();
+        KeepSolving();
+        // t.Start();
         // KeepSolving();      
     }
 
+    private void SetDefault()
+    {
+        var objs = GameObject.FindGameObjectsWithTag("Block");
+        string level = Keeper.Levels[BoxesScript.ApplicationModel.LoadLevel - 1];
+        for(var i=0;i<objs.Length;i++)
+        {
+            int x = Int32.Parse(level.Substring(i*4+2, 1));
+            int y = Int32.Parse(level.Substring(i*4+3, 1));
+            objs[i].transform.localPosition = objs[i].GetComponent<BlockScript>().GetPosition(x, y);
+        }
+    }
 
     public void KeepSolving()
     {
@@ -107,10 +124,6 @@ public class SolveThePuzzle : MonoBehaviour
         }
         return answer;
     }
-
-
-
-
 
 
 
@@ -162,39 +175,7 @@ public class SolveThePuzzle : MonoBehaviour
         }
         return answer;
     }
-
-    static void Main(string[] args)
-    {
-        // First beginner puzzle:
-
-        string level = "g254v255v361g311v332v214g316h213";
-        Board initial = getPuzzles(level);
-
-        // initial.RenderToConsole("");
-        Console.WriteLine();
-
-        Console.WriteLine("Solving...");
-        Stopwatch timer = Stopwatch.StartNew();
-        var sln = FindSolutionBFS(initial);
-        timer.Stop();
-
-        if (sln == null)
-            Console.WriteLine("No solution {0} ms", timer.ElapsedMilliseconds);
-        List<string> answer = new List<string>();
-        //      Console.WriteLine("Solved in {0} moves in {1} ms", sln.MoveCount, timer.ElapsedMilliseconds);
-        while (sln.Moves.Count > 0)
-        {
-            var move = sln.Moves.Pop();
-            move.RenderToConsole(answer);
-
-        }
-        var t = MakeMovingMap(answer);
-        foreach (var VARIABLE in t)
-        {
-            Console.WriteLine(VARIABLE);
-        }
-        //     Console.WriteLine("Solved in {0} moves in {1} ms", sln.MoveCount, timer.ElapsedMilliseconds);
-    }
+  
 
     class BoardSolution
     {

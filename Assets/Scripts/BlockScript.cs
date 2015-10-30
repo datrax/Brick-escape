@@ -94,7 +94,7 @@ public class BlockScript : MonoBehaviour
         solving = true;
     }
 
-    private Vector3 GetPosition(int x, int y)
+    public Vector3 GetPosition(int x, int y)
     {
         var cellSize = 45;
         var size = int.Parse(name[1].ToString());
