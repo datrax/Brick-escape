@@ -26,7 +26,8 @@ public class BlockScript : MonoBehaviour
 
     void ShowCongratulationMessage()
     {
-        //TODO
+        GameObject.Find("Canvas").GetComponent<Initializer>().ShowCongratulationMessage();
+
     }
 	// Update is called once per frame
 	void Update ()

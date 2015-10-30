@@ -17,6 +17,11 @@ public class BoxesScript : MonoBehaviour
         public static string LastBlockMoved = "";
         public static int steps =0;
     }
+    public void LoadNextLevel()
+    {
+        ApplicationModel.LoadLevel++;
+        Application.LoadLevel("GameScene");
+    }
     public void LoadLvlv(int number)
     {
         ApplicationModel.LoadLevel = number;

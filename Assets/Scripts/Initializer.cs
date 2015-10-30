@@ -6,7 +6,7 @@ using Assets.Scripts;
 
 public class Initializer : MonoBehaviour
 {
-
+    public GameObject CongratMessage;
     public GameObject block1;
     public GameObject block2;
     public GameObject block3;
@@ -38,7 +38,11 @@ public class Initializer : MonoBehaviour
             SetFigure(level.Substring(i,2), x, y);
         }
     }
-
+    public void ShowCongratulationMessage()
+    {
+        DestroyOldBlocks();
+        CongratMessage.SetActive(true);
+    }
     public void DestroyOldBlocks()
     {
         var oldBlocks = GameObject.FindGameObjectsWithTag("Block");
@@ -46,6 +50,7 @@ public class Initializer : MonoBehaviour
         {
             Destroy(block);
         }
+        
     }
     void SetFigure(string figure, int x,int y)
     {
