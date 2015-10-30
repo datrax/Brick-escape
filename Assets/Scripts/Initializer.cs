@@ -28,7 +28,7 @@ public class Initializer : MonoBehaviour
 
     public void LoadLevel(int number)
     {
-        DestroyOldBlocks();
+    //    DestroyOldBlocks();
         string level = Keeper.Levels[number - 1];
         
         for (int i = 0; i < level.Length; i+=4)
