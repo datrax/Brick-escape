@@ -12,7 +12,15 @@ using ThreadPriority = System.Threading.ThreadPriority;
 
 public class SolveThePuzzle : MonoBehaviour
 {
-
+    public void ReduceHintCount()
+    {
+        if (PlayerPrefs.HasKey("Hints"))
+        {
+            var hints = GameObject.Find("Solver").transform.GetChild(0).GetComponent<Text>();
+            hints.text = (int.Parse(hints.text) - 1).ToString();
+            PlayerPrefs.SetInt("Hints", int.Parse(hints.text));
+        }
+    }
     // Use this for initialization
     void Start()
     {
@@ -56,14 +64,18 @@ public class SolveThePuzzle : MonoBehaviour
     private Thread t;
     public void Solve()
     {
-        if(solving)return;        
-        solving = true;
-        steps = Keeper.solvers[BoxesScript.ApplicationModel.LoadLevel - 1];
-        BoxesScript.ApplicationModel.steps = 0;
-        GameObject.Find("Step").GetComponent<Text>().text = "moves : " + BoxesScript.ApplicationModel.steps;
-        SetOldBlocksNotActive();
-        GameObject.Find("Canvas").GetComponent<Initializer>().LoadLevel(BoxesScript.ApplicationModel.LoadLevel);
-        KeepSolving();
+        if(solving)return;
+        if (PlayerPrefs.GetInt("Hints") >= 1)
+        {
+            solving = true;
+            steps = Keeper.solvers[BoxesScript.ApplicationModel.LoadLevel - 1];
+            BoxesScript.ApplicationModel.steps = 0;
+            GameObject.Find("Step").GetComponent<Text>().text = "moves : " + BoxesScript.ApplicationModel.steps;
+            SetOldBlocksNotActive();
+            GameObject.Find("Canvas").GetComponent<Initializer>().LoadLevel(BoxesScript.ApplicationModel.LoadLevel);
+            KeepSolving();
+            ReduceHintCount();
+        }
 
     }
 

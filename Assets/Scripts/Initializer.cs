@@ -6,6 +6,11 @@ using Assets.Scripts;
 
 public class Initializer : MonoBehaviour
 {
+    public Sprite CongratText1;
+    public Sprite CongratText2;
+    public Sprite CongratText3;
+    public Sprite StarOn;
+    public Sprite StarOff;
     public GameObject CongratMessage;
     public GameObject block1;
     public GameObject block2;
@@ -24,6 +29,11 @@ public class Initializer : MonoBehaviour
 
         LoadLevel(level);
         GameObject.Find("PuzzleNumber").GetComponent<UnityEngine.UI.Text>().text = level.ToString();
+        if (!PlayerPrefs.HasKey("Hints"))
+        {
+            PlayerPrefs.SetInt("Hints", 3);
+        }
+        GameObject.Find("Solver").transform.GetChild(0).GetComponent<UnityEngine.UI.Text>().text = PlayerPrefs.GetInt("Hints").ToString();
     }
 
     public void LoadLevel(int number)
@@ -46,6 +56,25 @@ public class Initializer : MonoBehaviour
         /////////////////////////////////////////////////////////////////////////***************************TO EDIT!!!********************////
         GameObject.Find("Best").GetComponent<UnityEngine.UI.Text>().text = "Best: " + BoxesScript.ApplicationModel.steps;
         GameObject.Find("Perfect").GetComponent<UnityEngine.UI.Text>().text = "Perfect: " + Keeper.solvers[BoxesScript.ApplicationModel.LoadLevel - 1].Count.ToString();
+        var star1 = GameObject.Find("Star1").GetComponent<UnityEngine.UI.Image>();
+        var star2 = GameObject.Find("Star2").GetComponent<UnityEngine.UI.Image>();
+        var star3 = GameObject.Find("Star3").GetComponent<UnityEngine.UI.Image>();
+        star1.sprite = StarOn;
+        star2.sprite = StarOff;
+        star3.sprite = StarOff;
+        var status = GameObject.Find("ResultStatus").GetComponent<UnityEngine.UI.Image>();
+        status.sprite = CongratText1;
+        if (BoxesScript.ApplicationModel.steps <= Keeper.solvers[BoxesScript.ApplicationModel.LoadLevel - 1].Count + 14)
+        {
+            star2.sprite = StarOn;
+            status.sprite = CongratText2;
+        }
+        if (BoxesScript.ApplicationModel.steps <= Keeper.solvers[BoxesScript.ApplicationModel.LoadLevel - 1].Count + 7)
+        {
+            star2.sprite = StarOn;
+            star3.sprite = StarOn;
+            status.sprite = CongratText3;
+        }
     }
     public void DestroyOldBlocks()
     {

@@ -1,5 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
+using UnityEngine.UI;
+using System.Text;
 
 public class LevelMenuScript : MonoBehaviour {
     public Texture OpenLevel;
@@ -14,59 +16,51 @@ public class LevelMenuScript : MonoBehaviour {
     List<GameObject> buttons;
     void Init()
     {
-        GameObject first = GameObject.Find("LevelIcon");
-        buttons = new List<GameObject>();
-        GameObject newObj;
-        buttons.Add(first);
-        for (int i = 2; i <= 100; i++)
+        string level = "Level1";
+        while (PlayerPrefs.HasKey(level))
         {
-            // width
-            if ((i - 1) % 3 != 0)
+            var item = GameObject.Find("Boxes (" + (PlayerPrefs.GetInt(level) % 15 == 0 ? (PlayerPrefs.GetInt(level) / 15) :
+                (PlayerPrefs.GetInt(level) / 15 + 1)) +
+                ")").transform.FindChild("Box (" + (PlayerPrefs.GetInt(level) - 15 * (PlayerPrefs.GetInt(level)) / 15) +
+                ")").GetComponent<RawImage>();
+            var stats = PlayerPrefs.GetInt(level);
+            if (stats == -1)
             {
-                newObj = Instantiate(buttons[buttons.Count - 1]);
-                newObj.transform.parent = this.transform;
-                newObj.transform.FindChild("Text").GetComponent<UnityEngine.UI.Text>().text = i.ToString();
-                newObj.GetComponent<RectTransform>().position = buttons[buttons.Count - 1].GetComponent<RectTransform>().position;
-                newObj.GetComponent<RectTransform>().position = new Vector3(newObj.GetComponent<RectTransform>().position.x + HorisontalSpace, newObj.GetComponent<RectTransform>().position.y, newObj.GetComponent<RectTransform>().position.z);
-                buttons.Add(newObj);
+                item.texture = LockLevel;
             }
-            else if ((i - 1) % 12 != 0)
+            else if (stats == 0)
             {
-                // in new line
-                newObj = Instantiate(buttons[buttons.Count - 3]);
-                newObj.transform.parent = this.transform;
-                newObj.transform.FindChild("Text").GetComponent<UnityEngine.UI.Text>().text = i.ToString();
-                newObj.GetComponent<RectTransform>().position = buttons[buttons.Count - 3].GetComponent<RectTransform>().position;
-                newObj.GetComponent<RectTransform>().position = new Vector3(newObj.GetComponent<RectTransform>().position.x, newObj.GetComponent<RectTransform>().position.y - VerticalSpace, newObj.GetComponent<RectTransform>().position.z);
-                buttons.Add(newObj);
+                item.texture = OpenLevel;
             }
-            else
+            else if (stats == 1)
             {
-                newObj = Instantiate(buttons[buttons.Count - 10]);
-                newObj.transform.parent = this.transform;
-                newObj.transform.FindChild("Text").GetComponent<UnityEngine.UI.Text>().text = i.ToString();
-                newObj.GetComponent<RectTransform>().position = buttons[buttons.Count - 10].GetComponent<RectTransform>().position;
-                newObj.GetComponent<RectTransform>().position = new Vector3(newObj.GetComponent<RectTransform>().position.x + BlockSpace, newObj.GetComponent<RectTransform>().position.y, newObj.GetComponent<RectTransform>().position.z);
-                buttons.Add(newObj);
+                item.texture = OneStar;
             }
-
+            else if (stats == 2)
+            {
+                item.texture = TwoStar;
+            }
+            else if (stats == 3)
+            {
+                item.texture = ThreeStar;
+            }
+            level = "Level" + (int.Parse(level.Remove(0, 5)) + 1).ToString();
         }
-        buttons[0].GetComponent<UnityEngine.UI.RawImage>().texture = OneStar;
-        buttons[1].GetComponent<UnityEngine.UI.RawImage>().texture = TwoStar;
-        buttons[2].GetComponent<UnityEngine.UI.RawImage>().texture = ThreeStar;
-        buttons[3].GetComponent<UnityEngine.UI.RawImage>().texture = OpenLevel;
     }
 	// Use this for initialization
 	void Start () {
-	
-	}
+        if (!PlayerPrefs.HasKey("Level1"))
+        {
+            PlayerPrefs.SetInt("Level1", 0);
+        }
+    }
 	
 	// Update is called once per frame
 	void Update () {
 
         if (!inited)
         {
-            //Init();
+            Init();
             inited = true;
         }
     }
