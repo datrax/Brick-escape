@@ -13,13 +13,15 @@ public class BoxesScript : MonoBehaviour
     }
     public class ApplicationModel
     {
-        static public int LoadLevel = 1;
+        public static int LoadLevel = 1;
         public static string LastBlockMoved = "";
         public static int steps =0;
     }
-    public void LoadNextLevel()
+    public static void LoadLevel(int number)
     {
-        ApplicationModel.LoadLevel++;
+        ApplicationModel.LoadLevel = number;
+        ApplicationModel.steps = 0;
+        ApplicationModel.LastBlockMoved = "";
         Application.LoadLevel("GameScene");
     }
     public void LoadLvlv(int number)

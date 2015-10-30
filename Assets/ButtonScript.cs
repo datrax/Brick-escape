@@ -4,7 +4,15 @@ using System.Collections;
 public class ButtonScript : MonoBehaviour {
     public void LoadLevel(string name)
     {
+        BoxesScript.ApplicationModel.steps = 0;
+        BoxesScript.ApplicationModel.LastBlockMoved = "";
         Application.LoadLevel(name);
+    }
+    public void LoadNextLevel()
+    {
+        BoxesScript.ApplicationModel.LoadLevel++;
+        BoxesScript.LoadLevel(BoxesScript.ApplicationModel.LoadLevel);
+        Application.LoadLevel("GameScene");
     }
     void OnClick()
     {
