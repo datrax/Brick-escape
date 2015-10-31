@@ -38,8 +38,11 @@ public class BlockScript : MonoBehaviour
 	        if (transform.localPosition.x > 245)
 	        {
 	            win = !win;
-                GameObject.Find("Step").GetComponent<Text>().text = "moves : " + ++BoxesScript.ApplicationModel.steps;
-                ShowCongratulationMessage();
+	            if (GameObject.Find("Solver").GetComponent<SolveThePuzzle>().solving)
+	            {
+	                GameObject.Find("Step").GetComponent<Text>().text = "moves : " + ++BoxesScript.ApplicationModel.steps;
+	            }
+	            ShowCongratulationMessage();
 	        };
 
 	    }
@@ -185,12 +188,14 @@ public class BlockScript : MonoBehaviour
     }
     void OnMouseDown()
     {
+        if (GameObject.Find("Solver").GetComponent<SolveThePuzzle>().solving) return;
         GetComponent<Rigidbody2D>().isKinematic = false;
         oldpos = transform.position;
         BoxesScript.ApplicationModel.LastBlockMoved = codeName;
     }
     void OnMouseUp()
     {
+        if (GameObject.Find("Solver").GetComponent<SolveThePuzzle>().solving) return;
         MoveToGrid();
         GetComponent<Rigidbody2D>().isKinematic = true;
         oldpos = Vector3.zero;
