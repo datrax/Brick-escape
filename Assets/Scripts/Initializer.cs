@@ -131,7 +131,7 @@ public class Initializer : MonoBehaviour
             }
         }
         int c = 1;
-        while (PlayerPrefs.GetInt("Level" + c) >=0)
+        while (PlayerPrefs.GetInt("Level" + c) >0)
         {
             c++;
         }

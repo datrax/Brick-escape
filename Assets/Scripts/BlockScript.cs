@@ -193,6 +193,7 @@ public class BlockScript : MonoBehaviour
         oldpos = transform.position;
         BoxesScript.ApplicationModel.LastBlockMoved = codeName;
     }
+    AudioSource sound = null;
     void OnMouseUp()
     {
         if (GameObject.Find("Solver").GetComponent<SolveThePuzzle>().solving) return;
@@ -203,6 +204,11 @@ public class BlockScript : MonoBehaviour
             codeName.Substring(2, 2) != BoxesScript.ApplicationModel.LastBlockMoved.Substring(2, 2))
         {
             GameObject.Find("Step").GetComponent<Text>().text="moves : " + ++BoxesScript.ApplicationModel.steps;
+            if (sound == null)
+            {
+                sound = GameObject.Find("SoundButton").GetComponent<AudioSource>();               
+            }
+            sound.Play();
         }
     }
 

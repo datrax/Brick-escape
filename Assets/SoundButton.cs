@@ -11,6 +11,7 @@ public class SoundButton : MonoBehaviour {
         Sound = !Sound;
         PlayerPrefs.SetInt("Sound", Sound ? 1 : 0);
         GetComponent<Image>().sprite = Sound ? SoundOn : SoundOff;
+        GetComponent<AudioSource>().enabled = Sound;
     }
 	// Use this for initialization
 	void Start () {
@@ -24,6 +25,7 @@ public class SoundButton : MonoBehaviour {
             Sound = PlayerPrefs.GetInt("Sound") == 1 ?  Sound = true : Sound = false;
             GetComponent<Image>().sprite = Sound ? SoundOn : SoundOff;
         }
-	}
+        GetComponent<AudioSource>().enabled = Sound;
+    }
 	
 }
