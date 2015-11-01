@@ -34,6 +34,10 @@ public class Initializer : MonoBehaviour
             PlayerPrefs.SetInt("Hints", 3);
         }
         GameObject.Find("Solver").transform.GetChild(0).GetComponent<UnityEngine.UI.Text>().text = PlayerPrefs.GetInt("Hints").ToString();
+        if (!PlayerPrefs.HasKey("Level1"))
+        {
+            PlayerPrefs.SetInt("Level1", 0);
+        }
     }
 
     public void LoadLevel(int number)
@@ -53,8 +57,6 @@ public class Initializer : MonoBehaviour
         DestroyOldBlocks();
         CongratMessage.SetActive(true);
         GameObject.Find("Moves").GetComponent<UnityEngine.UI.Text>().text = "Moves: " + BoxesScript.ApplicationModel.steps;
-        /////////////////////////////////////////////////////////////////////////***************************TO EDIT!!!********************////
-        GameObject.Find("Best").GetComponent<UnityEngine.UI.Text>().text = "Best: " + BoxesScript.ApplicationModel.steps;
         GameObject.Find("Perfect").GetComponent<UnityEngine.UI.Text>().text = "Perfect: " + Keeper.solvers[BoxesScript.ApplicationModel.LoadLevel - 1].Count.ToString();
         var star1 = GameObject.Find("Star1").GetComponent<UnityEngine.UI.Image>();
         var star2 = GameObject.Find("Star2").GetComponent<UnityEngine.UI.Image>();
@@ -62,19 +64,56 @@ public class Initializer : MonoBehaviour
         star1.sprite = StarOn;
         star2.sprite = StarOff;
         star3.sprite = StarOff;
+        var currLevel = int.Parse(GameObject.Find("PuzzleNumber").GetComponent<UnityEngine.UI.Text>().text);
+        // Best set
+        if (!PlayerPrefs.HasKey("Best" + currLevel))
+        {
+            PlayerPrefs.SetInt("Best" + currLevel, BoxesScript.ApplicationModel.steps);
+            GameObject.Find("Best").GetComponent<UnityEngine.UI.Text>().text = "Best: " + BoxesScript.ApplicationModel.steps;
+        }
+        else
+        {
+            if (PlayerPrefs.GetInt("Best" + currLevel) > BoxesScript.ApplicationModel.steps)
+            {
+                PlayerPrefs.SetInt("Best" + currLevel, BoxesScript.ApplicationModel.steps);
+                GameObject.Find("Best").GetComponent<UnityEngine.UI.Text>().text = "Best: " + BoxesScript.ApplicationModel.steps;
+            }
+            else
+            {
+                GameObject.Find("Best").GetComponent<UnityEngine.UI.Text>().text = "Best: " + PlayerPrefs.GetInt("Best" + currLevel);
+            }
+        }
+        if (PlayerPrefs.HasKey("Level" + currLevel))
+        {
+            if (PlayerPrefs.GetInt("Level" + currLevel) < 1)
+            {
+                PlayerPrefs.SetInt("Level" + currLevel, 1);
+            } 
+        }
+
         var status = GameObject.Find("ResultStatus").GetComponent<UnityEngine.UI.Image>();
         status.sprite = CongratText1;
         if (BoxesScript.ApplicationModel.steps <= Keeper.solvers[BoxesScript.ApplicationModel.LoadLevel - 1].Count + 14)
         {
             star2.sprite = StarOn;
             status.sprite = CongratText2;
+            if (PlayerPrefs.GetInt("Level" + currLevel) <= 1)
+            {
+                PlayerPrefs.SetInt("Level" + currLevel, 2);
+            }
+
         }
         if (BoxesScript.ApplicationModel.steps <= Keeper.solvers[BoxesScript.ApplicationModel.LoadLevel - 1].Count + 7)
         {
             star2.sprite = StarOn;
             star3.sprite = StarOn;
             status.sprite = CongratText3;
+            if (PlayerPrefs.GetInt("Level" + currLevel) <= 2)
+            {
+                PlayerPrefs.SetInt("Level" + currLevel, 3);
+            }
         }
+        PlayerPrefs.SetInt("Level" + (currLevel+1), 0);
     }
     public void DestroyOldBlocks()
     {

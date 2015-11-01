@@ -4,12 +4,24 @@ using System.Collections;
 using UnityEngine.UI;
 public class BoxesScript : MonoBehaviour
 {
-    public Texture BoxTextureClosed;
-    public Texture BoxTextureOpen;
+    public const int LEVEL_COUNT = 100;
+    public Texture OpenLevel;
+    public Texture LockLevel;
+    public Texture OneStar;
+    public Texture TwoStar;
+    public Texture ThreeStar;
     // Use this for initialization
     void Start()
     {
         ShowBoxes();
+        if (!PlayerPrefs.HasKey("Level1"))
+        {
+            PlayerPrefs.SetInt("Level1", 0);
+            for (int i = 2; i <= LEVEL_COUNT; i++)
+            {
+                PlayerPrefs.SetInt("Level" + i,-1);
+            }
+        }
     }
     public class ApplicationModel
     {
@@ -32,25 +44,42 @@ public class BoxesScript : MonoBehaviour
 
     public void ShowBoxes()
     {
-        int levels = 1;
-        if (PlayerPrefs.HasKey("Levels"))
-        {
-            levels = PlayerPrefs.GetInt("Levels");
-        }
-        else
-        {
-            PlayerPrefs.SetInt("Levels", 1);
-        }
         int count = 1;
         for (int i = 1; i <= 7; i++)
         {
-            for (int j = 1; j <= 15 && count <= 100; j++)
+            for (int j = 1; j <= 15 && count <= LEVEL_COUNT; j++)
             {
+                int stats = -1;
                 var box = GameObject.Find("Boxes (" + i + ")").transform.FindChild("Box (" + j + ")");
+                if (PlayerPrefs.HasKey("Level" + (i * j)))
+                {
+                    stats = PlayerPrefs.GetInt("Level" + (i * j));
+                    switch (stats)
+                    {
+                        case -1:
+                            box.GetComponent<RawImage>().texture = LockLevel;
+                            break;
+                        case 0:
+                            box.GetComponent<RawImage>().texture = OpenLevel;
+                            break;
+                        case 1:
+                            box.GetComponent<RawImage>().texture = OneStar;
+                            break;
+                        case 2:
+                            box.GetComponent<RawImage>().texture = TwoStar;
+                            break;
+                        case 3:
+                            box.GetComponent<RawImage>().texture = ThreeStar;
+                            break;
+                    }
+                }
                 box.FindChild("Text").GetComponent<Text>().text = (count).ToString();
                 box.GetComponent<Button>().onClick.RemoveAllListeners();
                 var count1 = count;
-                box.GetComponent<Button>().onClick.AddListener(()=> LoadLvlv(count1));
+                if (stats != -1)
+                {
+                    box.GetComponent<Button>().onClick.AddListener(() => LoadLvlv(count1));
+                }
                 count++;
             }
         }
