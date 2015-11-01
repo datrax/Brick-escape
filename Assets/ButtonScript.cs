@@ -41,5 +41,13 @@ public class ButtonScript : MonoBehaviour {
         {
             PlayerPrefs.SetInt("Hints", PlayerPrefs.GetInt("Hints") + 10);
         }
+        else if (name == "FiveteenTipsButton")
+        {
+            PlayerPrefs.SetInt("Hints", PlayerPrefs.GetInt("Hints") + 50);
+        }
+        else if (name == "HundredTipsButton")
+        {
+            PlayerPrefs.SetInt("Hints", PlayerPrefs.GetInt("Hints") + 100);
+        }
     }
 }

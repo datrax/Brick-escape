@@ -24,7 +24,7 @@ public class Initializer : MonoBehaviour
     void Start () {
         if (!PlayerPrefs.HasKey("Hints"))
         {
-            PlayerPrefs.SetInt("Hints", 3);
+            PlayerPrefs.SetInt("Hints", 5);
         }
         GameObject.Find("Solver").transform.GetChild(0).GetComponent<UnityEngine.UI.Text>().text = PlayerPrefs.GetInt("Hints").ToString();
         if (!PlayerPrefs.HasKey("Level1"))
