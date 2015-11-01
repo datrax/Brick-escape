@@ -13,7 +13,6 @@ public class BoxesScript : MonoBehaviour
     // Use this for initialization
     void Start()
     {
-        ShowBoxes();
         if (!PlayerPrefs.HasKey("Level1"))
         {
             PlayerPrefs.SetInt("Level1", 0);
@@ -22,10 +21,11 @@ public class BoxesScript : MonoBehaviour
                 PlayerPrefs.SetInt("Level" + i,-1);
             }
         }
+        ShowBoxes();
     }
     public class ApplicationModel
     {
-        public static int LoadLevel = 1;
+        public static int LoadLevel = -1;
         public static string LastBlockMoved = "";
         public static int steps =0;
     }
@@ -51,9 +51,9 @@ public class BoxesScript : MonoBehaviour
             {
                 int stats = -1;
                 var box = GameObject.Find("Boxes (" + i + ")").transform.FindChild("Box (" + j + ")");
-                if (PlayerPrefs.HasKey("Level" + (i * j)))
+                if (PlayerPrefs.HasKey("Level" + (count)))
                 {
-                    stats = PlayerPrefs.GetInt("Level" + (i * j));
+                    stats = PlayerPrefs.GetInt("Level" + (count));
                     switch (stats)
                     {
                         case -1:

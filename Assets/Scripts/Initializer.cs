@@ -22,13 +22,6 @@ public class Initializer : MonoBehaviour
 
     // Use this for initialization
     void Start () {
-
-        //level 2 was changed
-        //pay attention  solution searching for level 100 takes more than 1 minute
-        var level = BoxesScript.ApplicationModel.LoadLevel;
-
-        LoadLevel(level);
-        GameObject.Find("PuzzleNumber").GetComponent<UnityEngine.UI.Text>().text = level.ToString();
         if (!PlayerPrefs.HasKey("Hints"))
         {
             PlayerPrefs.SetInt("Hints", 3);
@@ -38,6 +31,30 @@ public class Initializer : MonoBehaviour
         {
             PlayerPrefs.SetInt("Level1", 0);
         }
+        //level 2 was changed
+        //pay attention  solution searching for level 100 takes more than 1 minute
+        int lev = 1;
+       
+        while (PlayerPrefs.HasKey("Level" + lev))
+        {
+            if (PlayerPrefs.GetInt("Level" + lev) >= 0)
+            {
+                lev++;
+            }
+            else
+            {
+                break;
+            }
+        }
+
+        if (BoxesScript.ApplicationModel.LoadLevel == -1)
+        {
+            BoxesScript.ApplicationModel.LoadLevel = lev - 1;
+        }
+        var level = BoxesScript.ApplicationModel.LoadLevel;
+        LoadLevel(level);
+        GameObject.Find("PuzzleNumber").GetComponent<UnityEngine.UI.Text>().text = level.ToString();
+
     }
 
     public void LoadLevel(int number)
@@ -113,7 +130,13 @@ public class Initializer : MonoBehaviour
                 PlayerPrefs.SetInt("Level" + currLevel, 3);
             }
         }
-        PlayerPrefs.SetInt("Level" + (currLevel+1), 0);
+        int c = 1;
+        while (PlayerPrefs.GetInt("Level" + c) >=0)
+        {
+            c++;
+        }
+        PlayerPrefs.SetInt("Level" + c, 0);
+
     }
     public void DestroyOldBlocks()
     {
