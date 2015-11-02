@@ -2,7 +2,11 @@
 using System.Collections;
 
 public class ButtonScript : MonoBehaviour {
-
+    void Start()
+    {
+        //PlayerPrefs.DeleteAll();
+        //print("deleted");
+    }
     public void LoadLevel(string name)
     {
         BoxesScript.ApplicationModel.steps = 0;
@@ -11,9 +15,16 @@ public class ButtonScript : MonoBehaviour {
     }
     public void LoadNextLevel()
     {
-        BoxesScript.ApplicationModel.LoadLevel++;
-        BoxesScript.LoadLevel(BoxesScript.ApplicationModel.LoadLevel);
-        Application.LoadLevel("GameScene");
+        if (BoxesScript.ApplicationModel.LoadLevel >= 5)
+        {
+            Application.LoadLevel("MainMenuScene");
+        }
+        else
+        {
+            BoxesScript.ApplicationModel.LoadLevel++;
+            BoxesScript.LoadLevel(BoxesScript.ApplicationModel.LoadLevel);
+            Application.LoadLevel("GameScene");
+        }
     }
     void OnClick()
     {
@@ -31,7 +42,14 @@ public class ButtonScript : MonoBehaviour {
         }
         else if (name == "PlayButton")
         {
-            Application.LoadLevel("GameScene");
+            if (PlayerPrefs.HasKey("NewGame"))
+            {
+                Application.LoadLevel("GameScene");
+            }
+            else
+            {
+                Application.LoadLevel("HelpScene");
+            }
         }
         else if (name == "StoreButton")
         {
@@ -50,4 +68,5 @@ public class ButtonScript : MonoBehaviour {
             PlayerPrefs.SetInt("Hints", PlayerPrefs.GetInt("Hints") + 100);
         }
     }
+    
 }

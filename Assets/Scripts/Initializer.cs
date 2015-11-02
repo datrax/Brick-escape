@@ -22,6 +22,10 @@ public class Initializer : MonoBehaviour
 
     // Use this for initialization
     void Start () {
+        if (!PlayerPrefs.HasKey("NewGame"))
+        {
+            PlayerPrefs.SetInt("NewGame", 1);
+        }
         if (!PlayerPrefs.HasKey("Hints"))
         {
             PlayerPrefs.SetInt("Hints", 5);
@@ -135,6 +139,7 @@ public class Initializer : MonoBehaviour
         {
             c++;
         }
+        if (c < 6)
         PlayerPrefs.SetInt("Level" + c, 0);
 
     }
