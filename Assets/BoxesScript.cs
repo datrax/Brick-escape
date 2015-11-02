@@ -54,6 +54,7 @@ public class BoxesScript : MonoBehaviour
                 if (PlayerPrefs.HasKey("Level" + (count)))
                 {
                     stats = PlayerPrefs.GetInt("Level" + (count));
+                    print(stats);
                     switch (stats)
                     {
                         case -1:

@@ -4,6 +4,14 @@ using System.Collections;
 public class ButtonScript : MonoBehaviour {
     void Start()
     {
+        if (!PlayerPrefs.HasKey("Level1"))
+        {
+            PlayerPrefs.SetInt("Level1", 0);
+            for (int i = 2; i <= BoxesScript.LEVEL_COUNT; i++)
+            {
+                PlayerPrefs.SetInt("Level" + i, -1);
+            }
+        }
         //PlayerPrefs.DeleteAll();
         //print("deleted");
     }
@@ -72,6 +80,20 @@ public class ButtonScript : MonoBehaviour {
         else if (name == "RateButton")
         {
             Application.OpenURL("https://play.google.com/store/apps/details?id=com.ln.unlockpuzzle");
+        }
+        else if (name == "OpenNextLevelButton")
+        {
+            int c = 1;
+            //for (; c < 100; c++)
+            //{
+            //    print(PlayerPrefs.GetInt("Level" + c));
+            //}
+            while (PlayerPrefs.GetInt("Level" + c) >= 0)
+            {
+                c++;
+            }
+
+            PlayerPrefs.SetInt("Level" + c, 0);
         }
     }
     

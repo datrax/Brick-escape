@@ -109,10 +109,11 @@ public class Initializer : MonoBehaviour
                 PlayerPrefs.SetInt("Level" + currLevel, 1);
             } 
         }
-
+        var solving = GameObject.Find("Solver").GetComponent<SolveThePuzzle>().solving;
         var status = GameObject.Find("ResultStatus").GetComponent<UnityEngine.UI.Image>();
         status.sprite = CongratText1;
-        if (BoxesScript.ApplicationModel.steps <= Keeper.solvers[BoxesScript.ApplicationModel.LoadLevel - 1].Count + 14)
+        PlayerPrefs.SetInt("Level" + currLevel, 1);
+        if (BoxesScript.ApplicationModel.steps <= Keeper.solvers[BoxesScript.ApplicationModel.LoadLevel - 1].Count + 14 && !solving)
         {
             star2.sprite = StarOn;
             status.sprite = CongratText2;
@@ -122,7 +123,7 @@ public class Initializer : MonoBehaviour
             }
 
         }
-        if (BoxesScript.ApplicationModel.steps <= Keeper.solvers[BoxesScript.ApplicationModel.LoadLevel - 1].Count + 7)
+        if (BoxesScript.ApplicationModel.steps <= Keeper.solvers[BoxesScript.ApplicationModel.LoadLevel - 1].Count + 7 && !solving)
         {
             star2.sprite = StarOn;
             star3.sprite = StarOn;
@@ -132,12 +133,16 @@ public class Initializer : MonoBehaviour
                 PlayerPrefs.SetInt("Level" + currLevel, 3);
             }
         }
+        // Open next level
         int c = 1;
-        while (PlayerPrefs.GetInt("Level" + c) >0)
+        if (PlayerPrefs.HasKey("Level" + (currLevel+1)))
         {
-            c++;
-        }      
-        PlayerPrefs.SetInt("Level" + c, 0);
+            if (PlayerPrefs.GetInt("Level" + (currLevel + 1)) == -1)
+            {
+                PlayerPrefs.SetInt("Level" + (currLevel + 1), 0);
+            }
+        }
+     
 
     }
     public void DestroyOldBlocks()
