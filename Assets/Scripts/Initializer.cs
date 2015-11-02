@@ -35,8 +35,6 @@ public class Initializer : MonoBehaviour
         {
             PlayerPrefs.SetInt("Level1", 0);
         }
-        //level 2 was changed
-        //pay attention  solution searching for level 100 takes more than 1 minute
         int lev = 1;
        
         while (PlayerPrefs.HasKey("Level" + lev))
@@ -138,8 +136,7 @@ public class Initializer : MonoBehaviour
         while (PlayerPrefs.GetInt("Level" + c) >0)
         {
             c++;
-        }
-        if (c < 6)
+        }      
         PlayerPrefs.SetInt("Level" + c, 0);
 
     }

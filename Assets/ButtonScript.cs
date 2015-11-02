@@ -15,16 +15,10 @@ public class ButtonScript : MonoBehaviour {
     }
     public void LoadNextLevel()
     {
-        if (BoxesScript.ApplicationModel.LoadLevel >= 5)
-        {
-            Application.LoadLevel("MainMenuScene");
-        }
-        else
-        {
+      
             BoxesScript.ApplicationModel.LoadLevel++;
             BoxesScript.LoadLevel(BoxesScript.ApplicationModel.LoadLevel);
-            Application.LoadLevel("GameScene");
-        }
+            Application.LoadLevel("GameScene");        
     }
     void OnClick()
     {
@@ -66,6 +60,18 @@ public class ButtonScript : MonoBehaviour {
         else if (name == "HundredTipsButton")
         {
             PlayerPrefs.SetInt("Hints", PlayerPrefs.GetInt("Hints") + 100);
+        }
+        else if (name == "FacebookButton")
+        {
+            Application.OpenURL("https://www.facebook.com/lockscreeniphone/");
+        }
+        else if (name == "GooglePlayButton")
+        {
+            Application.OpenURL("https://play.google.com/store/apps/dev?id=5282599165473944593");
+        }
+        else if (name == "RateButton")
+        {
+            Application.OpenURL("https://play.google.com/store/apps/details?id=com.ln.unlockpuzzle");
         }
     }
     
