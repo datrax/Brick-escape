@@ -28,6 +28,10 @@ public class ButtonScript : MonoBehaviour {
             BoxesScript.LoadLevel(BoxesScript.ApplicationModel.LoadLevel);
             Application.LoadLevel("GameScene");        
     }
+    public void BuyLevel()
+    {
+        PlayerPrefs.SetInt("Level" + GameObject.Find("Level").GetComponent<UnityEngine.UI.Text>().text.Remove(0,6), 0);
+    }
     void OnClick()
     {
         if (name == "LevelsButton")

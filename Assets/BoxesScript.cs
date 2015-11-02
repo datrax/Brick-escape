@@ -41,6 +41,13 @@ public class BoxesScript : MonoBehaviour
         ApplicationModel.LoadLevel = number;
         Application.LoadLevel("GameScene");
     }
+    public void ShowBuyMessage(int number)
+    {
+        var obj = GameObject.Find("LevelMenu").GetComponent<ShowMessageScript>();
+        obj.Message.SetActive(true);
+        obj.LevelNumber = number;
+
+    }
 
     public void ShowBoxes()
     {
@@ -54,7 +61,7 @@ public class BoxesScript : MonoBehaviour
                 if (PlayerPrefs.HasKey("Level" + (count)))
                 {
                     stats = PlayerPrefs.GetInt("Level" + (count));
-                    print(stats);
+
                     switch (stats)
                     {
                         case -1:
@@ -80,6 +87,10 @@ public class BoxesScript : MonoBehaviour
                 if (stats != -1)
                 {
                     box.GetComponent<Button>().onClick.AddListener(() => LoadLvlv(count1));
+                }
+                else
+                {
+                    box.GetComponent<Button>().onClick.AddListener(() => ShowBuyMessage(count1));
                 }
                 count++;
             }
