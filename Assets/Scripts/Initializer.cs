@@ -61,7 +61,8 @@ public class Initializer : MonoBehaviour
 
     public void LoadLevel(int number)
     {
-    //    DestroyOldBlocks();
+      
+        //    DestroyOldBlocks();
         string level = Keeper.Levels[number - 1];
         
         for (int i = 0; i < level.Length; i+=4)
@@ -69,6 +70,10 @@ public class Initializer : MonoBehaviour
             int x = int.Parse(level.Substring(i+2, 1));
             int y = int.Parse(level.Substring(i+3, 1));
             SetFigure(level.Substring(i,2), x, y);
+        }
+        if (PlayerPrefs.GetInt("Adverts") == 1)
+        {
+            GoogleMobileAdsDemoScript.RequestInterstitial();
         }
     }
     public void ShowCongratulationMessage()

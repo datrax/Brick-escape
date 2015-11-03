@@ -12,6 +12,10 @@ public class ButtonScript : MonoBehaviour {
                 PlayerPrefs.SetInt("Level" + i, -1);
             }
         }
+        if (!PlayerPrefs.HasKey("Adverts"))
+        {
+            PlayerPrefs.SetInt("Adverts", 1);
+        }
         //PlayerPrefs.DeleteAll();
         //print("deleted");
     }
@@ -25,6 +29,10 @@ public class ButtonScript : MonoBehaviour {
     {
         if (PlayerPrefs.HasKey("Level" + (BoxesScript.ApplicationModel.LoadLevel + 1)))
         {
+            if (PlayerPrefs.GetInt("Adverts")==1)
+            {
+                GoogleMobileAdsDemoScript.ShowInterstitial();
+            }
             BoxesScript.ApplicationModel.LoadLevel++;
             BoxesScript.LoadLevel(BoxesScript.ApplicationModel.LoadLevel);
             Application.LoadLevel("GameScene");
@@ -104,6 +112,13 @@ public class ButtonScript : MonoBehaviour {
             }
 
             PlayerPrefs.SetInt("Level" + c, 0);
+        }
+        else if (name == "BackToMainMenuScene")
+        {
+            PlayerPrefs.SetInt("Adverts", 0);
+            if (GoogleMobileAdsDemoScript.bannerView!=null) GoogleMobileAdsDemoScript.bannerView.Hide();
+            if (GoogleMobileAdsDemoScript.interstitial != null) GoogleMobileAdsDemoScript.interstitial.Destroy();
+            if (GoogleMobileAdsDemoScript.bannerView != null) GoogleMobileAdsDemoScript.bannerView.Destroy();
         }
     }
     
