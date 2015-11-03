@@ -32,6 +32,11 @@ public class ButtonScript : MonoBehaviour {
             if (PlayerPrefs.GetInt("Adverts")==1)
             {
                 GoogleMobileAdsDemoScript.ShowInterstitial();
+                if (GoogleMobileAdsDemoScript.bannerView != null)
+                {
+                    GoogleMobileAdsDemoScript.bannerView.Hide();
+                    GoogleMobileAdsDemoScript.bannerView.Destroy();
+                }
             }
             BoxesScript.ApplicationModel.LoadLevel++;
             BoxesScript.LoadLevel(BoxesScript.ApplicationModel.LoadLevel);
@@ -113,12 +118,23 @@ public class ButtonScript : MonoBehaviour {
 
             PlayerPrefs.SetInt("Level" + c, 0);
         }
-        else if (name == "BackToMainMenuScene")
+        else if (name == "RemoveAdsButton")
         {
             PlayerPrefs.SetInt("Adverts", 0);
             if (GoogleMobileAdsDemoScript.bannerView!=null) GoogleMobileAdsDemoScript.bannerView.Hide();
             if (GoogleMobileAdsDemoScript.interstitial != null) GoogleMobileAdsDemoScript.interstitial.Destroy();
             if (GoogleMobileAdsDemoScript.bannerView != null) GoogleMobileAdsDemoScript.bannerView.Destroy();
+        }
+
+    }
+
+    public void DisableAdv()
+    {
+        if (PlayerPrefs.GetInt("Adverts") == 1)
+        {
+            if (GoogleMobileAdsDemoScript.bannerView != null) GoogleMobileAdsDemoScript.bannerView.Hide();
+            if (GoogleMobileAdsDemoScript.bannerView != null) GoogleMobileAdsDemoScript.bannerView.Destroy();
+            if (GoogleMobileAdsDemoScript.interstitial != null) GoogleMobileAdsDemoScript.interstitial.Destroy();
         }
     }
     

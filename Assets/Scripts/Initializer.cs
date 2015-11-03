@@ -57,6 +57,18 @@ public class Initializer : MonoBehaviour
         LoadLevel(level);
         GameObject.Find("PuzzleNumber").GetComponent<UnityEngine.UI.Text>().text = level.ToString();
 
+        if (PlayerPrefs.GetInt("Adverts") == 1)
+        {
+            if (GoogleMobileAdsDemoScript.bannerView != null)
+            {
+                GoogleMobileAdsDemoScript.bannerView.Hide();
+                GoogleMobileAdsDemoScript.bannerView.Destroy();
+            }
+            GoogleMobileAdsDemoScript.RequestBanner();
+                GoogleMobileAdsDemoScript.bannerView.Show();
+            
+
+        }
     }
 
     public void LoadLevel(int number)
@@ -74,6 +86,7 @@ public class Initializer : MonoBehaviour
         if (PlayerPrefs.GetInt("Adverts") == 1)
         {
             GoogleMobileAdsDemoScript.RequestInterstitial();
+      
         }
     }
     public void ShowCongratulationMessage()
