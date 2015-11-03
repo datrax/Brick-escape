@@ -23,10 +23,16 @@ public class ButtonScript : MonoBehaviour {
     }
     public void LoadNextLevel()
     {
-      
+        if (PlayerPrefs.HasKey("Level" + (BoxesScript.ApplicationModel.LoadLevel + 1)))
+        {
             BoxesScript.ApplicationModel.LoadLevel++;
             BoxesScript.LoadLevel(BoxesScript.ApplicationModel.LoadLevel);
-            Application.LoadLevel("GameScene");        
+            Application.LoadLevel("GameScene");
+        }
+        else
+        {
+            Application.LoadLevel("MainMenuScene");
+        }
     }
     public void BuyLevel()
     {
