@@ -10,7 +10,8 @@ public class BoxesScript : MonoBehaviour
     public Texture OneStar;
     public Texture TwoStar;
     public Texture ThreeStar;
-    // Use this for initialization
+    public GameObject[] Boxes;
+    private Scrollbar scrollbar;
     void Start()
     {
         if (!PlayerPrefs.HasKey("Level1"))
@@ -18,16 +19,18 @@ public class BoxesScript : MonoBehaviour
             PlayerPrefs.SetInt("Level1", 0);
             for (int i = 2; i <= LEVEL_COUNT; i++)
             {
-                PlayerPrefs.SetInt("Level" + i,-1);
+                PlayerPrefs.SetInt("Level" + i, -1);
             }
         }
+        scrollbar = GameObject.Find("Scrollbar").GetComponent<Scrollbar>();
         ShowBoxes();
+
     }
     public class ApplicationModel
     {
         public static int LoadLevel = -1;
         public static string LastBlockMoved = "";
-        public static int steps =0;
+        public static int steps = 0;
     }
     public static void LoadLevel(int number)
     {
@@ -48,16 +51,49 @@ public class BoxesScript : MonoBehaviour
         obj.LevelNumber = number;
 
     }
+    public float move = 0;
+    public void ShowLevels(float vector)
+    {
+        if (move == 0)
+        {
+            if (vector > 0 && vector < 0.81)
+            {
+                move = vector;
+            }
+            else if (vector < 0)
+            {
+                move = vector;
+            }
+        }
 
+    }
+    void Update()
+    {
+        if (move > 0.01f)
+        {
+            move -= 0.02f;
+            if (scrollbar.value <= 0.94f)
+            scrollbar.value += 0.02f;
+        }
+        else if (move < -0.01f)
+        {
+            move += 0.02f;
+            scrollbar.value -= 0.02f;
+        }
+        else
+        {
+            move = 0;
+        }
+    }
     public void ShowBoxes()
     {
         int count = 1;
-        for (int i = 1; i <= 7; i++)
+        for (int i = 0; i < Boxes.Length; i++)
         {
             for (int j = 1; j <= 15 && count <= LEVEL_COUNT; j++)
             {
                 int stats = -1;
-                var box = GameObject.Find("Boxes (" + i + ")").transform.FindChild("Box (" + j + ")");
+                var box = Boxes[i].transform.FindChild("Box (" + j + ")");
                 if (PlayerPrefs.HasKey("Level" + (count)))
                 {
                     stats = PlayerPrefs.GetInt("Level" + (count));
