@@ -16,13 +16,4 @@ public class ShowMessageScript : MonoBehaviour {
             Message.transform.FindChild("Level").GetComponent<UnityEngine.UI.Text>().text = "level " + value;
         }
     }
-	// Use this for initialization
-	void Start () {
-	
-	}
-	
-	// Update is called once per frame
-	void Update () {
-	
-	}
 }
