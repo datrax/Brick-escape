@@ -31,7 +31,8 @@ public class ButtonScript : MonoBehaviour {
         {
             if (PlayerPrefs.GetInt("Adverts")==1)
             {
-                GoogleMobileAdsDemoScript.ShowInterstitial();
+                if (BoxesScript.ApplicationModel.LoadLevel % 2 == 0)
+                    GoogleMobileAdsDemoScript.ShowInterstitial();
                 if (GoogleMobileAdsDemoScript.bannerView != null)
                 {
                     GoogleMobileAdsDemoScript.bannerView.Hide();

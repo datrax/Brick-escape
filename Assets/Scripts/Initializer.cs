@@ -21,7 +21,8 @@ public class Initializer : MonoBehaviour
     public float cellSize = 49;
 
     // Use this for initialization
-    void Start () {
+    void Start()
+    {
         if (!PlayerPrefs.HasKey("NewGame"))
         {
             PlayerPrefs.SetInt("NewGame", 1);
@@ -36,7 +37,7 @@ public class Initializer : MonoBehaviour
             PlayerPrefs.SetInt("Level1", 0);
         }
         int lev = 1;
-       
+
         while (PlayerPrefs.HasKey("Level" + lev))
         {
             if (PlayerPrefs.GetInt("Level" + lev) >= 0)
@@ -65,28 +66,41 @@ public class Initializer : MonoBehaviour
                 GoogleMobileAdsDemoScript.bannerView.Destroy();
             }
             GoogleMobileAdsDemoScript.RequestBanner();
-                GoogleMobileAdsDemoScript.bannerView.Show();
-            
+            GoogleMobileAdsDemoScript.bannerView.Show();
 
+        }
+        else
+        {
+            GameObject.Find("BackToMainMenuScene").transform.localPosition = new Vector3(GameObject.Find("BackToMainMenuScene").transform.localPosition.x, -235.5f);
+            GameObject.Find("Solver").transform.localPosition = new Vector3(GameObject.Find("Solver").transform.localPosition.x, -235.5f);
+            GameObject.Find("RefreshButton").transform.localPosition = new Vector3(GameObject.Find("RefreshButton").transform.localPosition.x, -235.5f);
+            GameObject.Find("SoundButton").transform.localPosition = new Vector3(GameObject.Find("SoundButton").transform.localPosition.x, -235.5f);
         }
     }
 
     public void LoadLevel(int number)
     {
-      
+
         //    DestroyOldBlocks();
         string level = Keeper.Levels[number - 1];
-        
-        for (int i = 0; i < level.Length; i+=4)
+
+        for (int i = 0; i < level.Length; i += 4)
         {
-            int x = int.Parse(level.Substring(i+2, 1));
-            int y = int.Parse(level.Substring(i+3, 1));
-            SetFigure(level.Substring(i,2), x, y);
+            int x = int.Parse(level.Substring(i + 2, 1));
+            int y = int.Parse(level.Substring(i + 3, 1));
+            SetFigure(level.Substring(i, 2), x, y);
         }
         if (PlayerPrefs.GetInt("Adverts") == 1)
         {
-            GoogleMobileAdsDemoScript.RequestInterstitial();
-      
+            if (BoxesScript.ApplicationModel.LoadLevel%2 == 0)
+            {
+                if (GoogleMobileAdsDemoScript.interstitial != null)
+                {
+                    GoogleMobileAdsDemoScript.interstitial.Destroy();
+                }
+                GoogleMobileAdsDemoScript.RequestInterstitial();
+            }
+
         }
     }
     public void ShowCongratulationMessage()
@@ -125,7 +139,7 @@ public class Initializer : MonoBehaviour
             if (PlayerPrefs.GetInt("Level" + currLevel) < 1)
             {
                 PlayerPrefs.SetInt("Level" + currLevel, 1);
-            } 
+            }
         }
         var solving = GameObject.Find("Solver").GetComponent<SolveThePuzzle>().solving;
         var status = GameObject.Find("ResultStatus").GetComponent<UnityEngine.UI.Image>();
@@ -153,14 +167,14 @@ public class Initializer : MonoBehaviour
         }
         // Open next level
         int c = 1;
-        if (PlayerPrefs.HasKey("Level" + (currLevel+1)))
+        if (PlayerPrefs.HasKey("Level" + (currLevel + 1)))
         {
             if (PlayerPrefs.GetInt("Level" + (currLevel + 1)) == -1)
             {
                 PlayerPrefs.SetInt("Level" + (currLevel + 1), 0);
             }
         }
-     
+
 
     }
     public void DestroyOldBlocks()
@@ -170,12 +184,12 @@ public class Initializer : MonoBehaviour
         {
             Destroy(block);
         }
-        
+
     }
-    void SetFigure(string figure, int x,int y)
+    void SetFigure(string figure, int x, int y)
     {
         var size = int.Parse(figure[1].ToString());
-        var vertical = (figure[0]=='v');
+        var vertical = (figure[0] == 'v');
         float yc = 0.5f;
         float xc = 0.5f;
         if (vertical)
@@ -188,8 +202,8 @@ public class Initializer : MonoBehaviour
             yc = 0.5f;
             xc = size == 2 ? 1 : 1.5f;
         }
-        var Y = 160 - 46*yc- cellSize * (y-1);
-        var X = -135 + 46*xc + cellSize*(x - 1);
+        var Y = 160 - 46 * yc - cellSize * (y - 1);
+        var X = -135 + 46 * xc + cellSize * (x - 1);
         GameObject t = null;
         switch (figure)
         {
@@ -220,10 +234,11 @@ public class Initializer : MonoBehaviour
         }
     }
     // Update is called once per frame
-    void Update () {
-	
-	}
+    void Update()
+    {
 
-  
+    }
+
+
 
 }
