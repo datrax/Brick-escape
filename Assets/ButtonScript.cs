@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
-
+using Soomla;
+using Soomla.Store;
 public class ButtonScript : MonoBehaviour {
     void Start()
     {
@@ -83,7 +84,9 @@ public class ButtonScript : MonoBehaviour {
         }
         else if (name == "TenTipsButton")
         {
-            PlayerPrefs.SetInt("Hints", PlayerPrefs.GetInt("Hints") + 10);
+            //PlayerPrefs.SetInt("Hints", PlayerPrefs.GetInt("Hints") + 10);
+
+            StoreInventory.BuyItem(PuzzleStore.PuzzleStoreAssets.TENMUFF_PACK_PRODUCT_ID);
         }
         else if (name == "FiveteenTipsButton")
         {
