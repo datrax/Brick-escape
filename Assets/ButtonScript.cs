@@ -86,15 +86,18 @@ public class ButtonScript : MonoBehaviour {
         {
             //PlayerPrefs.SetInt("Hints", PlayerPrefs.GetInt("Hints") + 10);
 
-            StoreInventory.BuyItem(PuzzleStore.PuzzleStoreAssets.TENMUFF_PACK_PRODUCT_ID);
+            StoreInventory.BuyItem(PuzzleStore.PuzzleStoreAssets.TENTIPS_ITEM_ID);
         }
         else if (name == "FiveteenTipsButton")
         {
-            PlayerPrefs.SetInt("Hints", PlayerPrefs.GetInt("Hints") + 50);
+            //PlayerPrefs.SetInt("Hints", PlayerPrefs.GetInt("Hints") + 50);
+            StoreInventory.BuyItem(PuzzleStore.PuzzleStoreAssets.FIFTY_ITEM_ID);
         }
         else if (name == "HundredTipsButton")
         {
             PlayerPrefs.SetInt("Hints", PlayerPrefs.GetInt("Hints") + 100);
+            //StoreInventory.BuyItem(PuzzleStore.PuzzleStoreAssets.HUNDRED_ITEM_ID);
+            StoreInventory.BuyItem(PuzzleStore.PuzzleStoreAssets.HUNDRED_ITEM_ID);
         }
         else if (name == "FacebookButton")
         {
