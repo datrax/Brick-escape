@@ -38,7 +38,7 @@ namespace PuzzleStore
         /// </summary>
         public VirtualCurrency[] GetCurrencies()
         {
-            return new VirtualCurrency[] { TEN_TIPS_CURRENCY, FIFTY_TIPS_CURRENCY, HUNDRED_TIPS_CURRENCY };
+            return new VirtualCurrency[] { TEN_TIPS_CURRENCY, FIFTY_TIPS_CURRENCY, HUNDRED_TIPS_CURRENCY, REMOVEADS_CURRENCY, UNLOCKLEVEL_CURRENCY };
         }
 
         /// <summary>
@@ -46,7 +46,7 @@ namespace PuzzleStore
         /// </summary>
         public VirtualGood[] GetGoods()
         {
-            return new VirtualGood[] { NO_ADS_LTVG, OPEN_NEXT_LEVEL };
+            return new VirtualGood[] {};
         }
 
         /// <summary>
@@ -54,7 +54,7 @@ namespace PuzzleStore
         /// </summary>
         public VirtualCurrencyPack[] GetCurrencyPacks()
         {
-            return new VirtualCurrencyPack[] { FIFTYTIPS_PACK, TENTIPS_PACK, HUNDREDTIPS_PACK };
+            return new VirtualCurrencyPack[] { FIFTYTIPS_PACK, TENTIPS_PACK, HUNDREDTIPS_PACK, REMOVEADS_PACK, UNLOCKLEVEL_PACK };
         }
 
         /// <summary>
@@ -85,13 +85,22 @@ namespace PuzzleStore
 
         public const string HUNDRED_ITEM_ID = "hundredtips";
 
-        public const string REMOVEADS_ITEM_ID = "removeads";
+        public const string REMOVEADS_ITEM_ID = "RemoveAds";
 
-        public const string UNLOCKLEVEL_ITEM_ID = "unlocklevel";
+        public const string UNLOCKLEVEL_ITEM_ID = "Unlock_Level";
 
 
         /** Virtual Currencies **/
-
+        public static VirtualCurrency REMOVEADS_CURRENCY = new VirtualCurrency(
+        "RemoveAds",                                      // name
+        "",                                             // description
+        REMOVEADS_PACK_ID                         // item id
+);
+        public static VirtualCurrency UNLOCKLEVEL_CURRENCY = new VirtualCurrency(
+"Unlock_Level",                                      // name
+"",                                             // description
+UNLOCKLEVEL_PACK_ID                         // item id
+);
         public static VirtualCurrency TEN_TIPS_CURRENCY = new VirtualCurrency(
                 "TenTips",                                      // name
                 "",                                             // description
@@ -108,7 +117,22 @@ namespace PuzzleStore
         HUNDRED_TIPS_PACK_ID                      // item id
         );
         /** Virtual Currency Packs **/
-
+        public static VirtualCurrencyPack REMOVEADS_PACK = new VirtualCurrencyPack(
+        "REMOVE ADS",                                   // name
+        "REMOVING ALL ADS",                       // description
+        REMOVEADS_ITEM_ID,                                   // item id
+        1,                                             // number of currencies in the pack
+        REMOVEADS_PACK_ID,                        // the currency associated with this pack
+        new PurchaseWithMarket(REMOVEADS_PACK_ID, 0.99)
+        );
+        public static VirtualCurrencyPack UNLOCKLEVEL_PACK = new VirtualCurrencyPack(
+        "UNLOCK LEVEL",                                   // name
+        "UNLOCK SELECTED LEVEL",                       // description
+        UNLOCKLEVEL_ITEM_ID,                                   // item id
+        1,                                             // number of currencies in the pack
+        UNLOCKLEVEL_PACK_ID,                        // the currency associated with this pack
+        new PurchaseWithMarket(UNLOCKLEVEL_PACK_ID, 0.99)
+        );
         public static VirtualCurrencyPack TENTIPS_PACK = new VirtualCurrencyPack(
                 "10 TIPS",                                   // name
                 "TEN TIPS",                       // description
@@ -142,47 +166,6 @@ namespace PuzzleStore
         );
 
 
-        /** LifeTimeVGs **/
-        // Note: create non-consumable items using LifeTimeVG with PuchaseType of PurchaseWithMarket
-        public static VirtualGood NO_ADS_LTVG = new LifetimeVG(
-            "No Ads",                                                       // name
-            "No More Ads!",                                                 // description
-            "removeads",                                                       // item id
-            new PurchaseWithMarket(REMOVEADS_ITEM_ID, 0.99));  // the way this virtual good is purchased
-        public static VirtualGood OPEN_NEXT_LEVEL = new LifetimeVG(
-    "Opening next level",                                                       // name
-    "Open next level",                                                 // description
-    "unlocklevel",                                                       // item id
-    new PurchaseWithMarket(UNLOCKLEVEL_ITEM_ID, 0.99));  // the way this virtual good is purchased
-
-        //public static ItemData GetItem(string id)
-        //{
-        //    ItemData itemData = new ItemData();
-        //    PurchasableVirtualItem pvi = StoreInfo.GetPurchasableItemWithProductId(id);
-        //    if (pvi != null)
-        //    {
-        //        MarketItem mi = ((PurchaseWithMarket)pvi.PurchaseType).MarketItem;
-        //        itemData.Id = id;
-        //        itemData.Title = mi.MarketDescription;
-        //        itemData.Price = mi.Price.ToString();
-        //    }
-        //    return itemData;
-        //}
-        //public class ItemData
-        //{
-        //    public ItemData()
-        //    {
-        //        Id = "";
-        //        Title = "";
-        //        Price = "";
-        //        Description = "";
-        //    }
-        //        public string Id { get; set; }
-        //    public string Title { get; set; }
-        //    public string Price { get; set; }
-        //    public string Description { get; set; }
-
-        //}
     }
 
 }

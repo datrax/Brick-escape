@@ -1,6 +1,5 @@
 ﻿
-using Soomla;
-using Soomla.Store;
+
 /// Copyright (C) 2012-2014 Soomla Inc.
 ///
 /// Licensed under the Apache License, Version 2.0 (the "License");
@@ -16,7 +15,8 @@ using Soomla.Store;
 /// limitations under the License.
 using System;
 using System.Collections.Generic;
-
+using Soomla;
+using Soomla.Store;
 namespace PuzzleStore
 {
     /// <summary>
@@ -73,7 +73,7 @@ namespace PuzzleStore
         /// <param name="purchaseToken">Purchase token.</param>
         public void onMarketPurchase(PurchasableVirtualItem pvi, string payload, Dictionary<string, string> extra)
         {
-
+           
         }
 
         /// <summary>

@@ -3,6 +3,7 @@ using System.Collections;
 
 public class ShowMessageScript : MonoBehaviour {
     public GameObject Message;
+    public GameObject MessageStatus;
     private int levelNumber;
     public int LevelNumber
     {

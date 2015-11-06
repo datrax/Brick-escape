@@ -2,6 +2,8 @@
 using System.Collections;
 using Soomla;
 using Soomla.Store;
+using PuzzleStore;
+
 public class ButtonScript : MonoBehaviour {
     void Start()
     {
@@ -51,7 +53,8 @@ public class ButtonScript : MonoBehaviour {
     }
     public void BuyLevel()
     {
-        PlayerPrefs.SetInt("Level" + GameObject.Find("Level").GetComponent<UnityEngine.UI.Text>().text.Remove(0,6), 0);
+        StoreInventory.BuyItem(PuzzleStoreAssets.UNLOCKLEVEL_ITEM_ID);
+
     }
     void OnClick()
     {
@@ -84,19 +87,14 @@ public class ButtonScript : MonoBehaviour {
         }
         else if (name == "TenTipsButton")
         {
-            //PlayerPrefs.SetInt("Hints", PlayerPrefs.GetInt("Hints") + 10);
-
             StoreInventory.BuyItem(PuzzleStore.PuzzleStoreAssets.TENTIPS_ITEM_ID);
         }
         else if (name == "FiveteenTipsButton")
         {
-            //PlayerPrefs.SetInt("Hints", PlayerPrefs.GetInt("Hints") + 50);
             StoreInventory.BuyItem(PuzzleStore.PuzzleStoreAssets.FIFTY_ITEM_ID);
         }
         else if (name == "HundredTipsButton")
         {
-            PlayerPrefs.SetInt("Hints", PlayerPrefs.GetInt("Hints") + 100);
-            //StoreInventory.BuyItem(PuzzleStore.PuzzleStoreAssets.HUNDRED_ITEM_ID);
             StoreInventory.BuyItem(PuzzleStore.PuzzleStoreAssets.HUNDRED_ITEM_ID);
         }
         else if (name == "FacebookButton")
@@ -113,24 +111,15 @@ public class ButtonScript : MonoBehaviour {
         }
         else if (name == "OpenNextLevelButton")
         {
-            int c = 1;
-            //for (; c < 100; c++)
-            //{
-            //    print(PlayerPrefs.GetInt("Level" + c));
-            //}
-            while (PlayerPrefs.GetInt("Level" + c) >= 0)
-            {
-                c++;
-            }
-
-            PlayerPrefs.SetInt("Level" + c, 0);
+            StoreInventory.BuyItem(PuzzleStore.PuzzleStoreAssets.UNLOCKLEVEL_ITEM_ID);
         }
         else if (name == "RemoveAdsButton")
         {
-            PlayerPrefs.SetInt("Adverts", 0);
-            if (GoogleMobileAdsDemoScript.bannerView!=null) GoogleMobileAdsDemoScript.bannerView.Hide();
-            if (GoogleMobileAdsDemoScript.interstitial != null) GoogleMobileAdsDemoScript.interstitial.Destroy();
-            if (GoogleMobileAdsDemoScript.bannerView != null) GoogleMobileAdsDemoScript.bannerView.Destroy();
+            if (PlayerPrefs.GetInt("Adverts") == 1)
+            {
+                StoreInventory.BuyItem(PuzzleStore.PuzzleStoreAssets.REMOVEADS_ITEM_ID);
+            }
+
         }
 
     }
@@ -142,6 +131,65 @@ public class ButtonScript : MonoBehaviour {
             if (GoogleMobileAdsDemoScript.bannerView != null) GoogleMobileAdsDemoScript.bannerView.Hide();
             if (GoogleMobileAdsDemoScript.bannerView != null) GoogleMobileAdsDemoScript.bannerView.Destroy();
             if (GoogleMobileAdsDemoScript.interstitial != null) GoogleMobileAdsDemoScript.interstitial.Destroy();
+        }
+    }
+    void Update()
+    {
+        if (Application.loadedLevelName == "StoreScene")
+        {
+            if (StoreInventory.GetItemBalance(PuzzleStore.PuzzleStoreAssets.HUNDRED_TIPS_PACK_ID) > 0)
+            {
+                PlayerPrefs.SetInt("Hints", PlayerPrefs.GetInt("Hints") + 100);
+                StoreInventory.TakeItem(PuzzleStore.PuzzleStoreAssets.HUNDRED_TIPS_PACK_ID, 1);
+                GameObject.Find("Camera").GetComponent<ShowMessageScript>().MessageStatus.SetActive(true);
+                GameObject.Find("Panel").SetActive(false);
+            }
+            else if (StoreInventory.GetItemBalance(PuzzleStore.PuzzleStoreAssets.REMOVEADS_PACK_ID) > 0)
+            {
+                StoreInventory.TakeItem(PuzzleStore.PuzzleStoreAssets.REMOVEADS_PACK_ID, 1);
+                PlayerPrefs.SetInt("Adverts", 0);
+                GameObject.Find("Camera").GetComponent<ShowMessageScript>().MessageStatus.SetActive(true);
+                if (GoogleMobileAdsDemoScript.bannerView != null) GoogleMobileAdsDemoScript.bannerView.Hide();
+                if (GoogleMobileAdsDemoScript.interstitial != null) GoogleMobileAdsDemoScript.interstitial.Destroy();
+                if (GoogleMobileAdsDemoScript.bannerView != null) GoogleMobileAdsDemoScript.bannerView.Destroy();
+                GameObject.Find("Panel").SetActive(false);
+            }
+            else if (StoreInventory.GetItemBalance(PuzzleStore.PuzzleStoreAssets.TEN_TIPS_PACK_ID) > 0)
+            {
+                GameObject.Find("Camera").GetComponent<ShowMessageScript>().MessageStatus.SetActive(true);
+                PlayerPrefs.SetInt("Hints", PlayerPrefs.GetInt("Hints") + 10);
+                StoreInventory.TakeItem(PuzzleStore.PuzzleStoreAssets.TEN_TIPS_PACK_ID, 1);
+                GameObject.Find("Panel").SetActive(false);
+            }
+            else if (StoreInventory.GetItemBalance(PuzzleStore.PuzzleStoreAssets.FIFTY_TIPS_PACK_ID) > 0)
+            {
+                GameObject.Find("Camera").GetComponent<ShowMessageScript>().MessageStatus.SetActive(true);
+                PlayerPrefs.SetInt("Hints", PlayerPrefs.GetInt("Hints") + 50);
+                StoreInventory.TakeItem(PuzzleStore.PuzzleStoreAssets.FIFTY_TIPS_PACK_ID, 1);
+                GameObject.Find("Panel").SetActive(false);
+            }
+            else if (StoreInventory.GetItemBalance(PuzzleStore.PuzzleStoreAssets.UNLOCKLEVEL_PACK_ID) > 0 && Application.loadedLevelName == "StoreScene")
+            {
+                int c = 1;
+                while (PlayerPrefs.GetInt("Level" + c) >= 0)
+                {
+                    c++;
+                }
+                GameObject.Find("Camera").GetComponent<ShowMessageScript>().MessageStatus.SetActive(true);
+                StoreInventory.TakeItem(PuzzleStore.PuzzleStoreAssets.UNLOCKLEVEL_PACK_ID, 1);
+                PlayerPrefs.SetInt("Level" + c, 0);
+                GameObject.Find("Panel").SetActive(false);
+            }
+            
+        }
+        else if (Application.loadedLevelName == "LevelsMenuScene")
+        {
+            if (StoreInventory.GetItemBalance(PuzzleStore.PuzzleStoreAssets.UNLOCKLEVEL_PACK_ID) > 0)
+            {
+                PlayerPrefs.SetInt("Level" + GameObject.Find("Level").GetComponent<UnityEngine.UI.Text>().text.Remove(0, 6), 0);
+                GameObject.Find("LevelMenu").GetComponent<ShowMessageScript>().MessageStatus.SetActive(true);
+                StoreInventory.TakeItem(PuzzleStore.PuzzleStoreAssets.UNLOCKLEVEL_PACK_ID, 1);
+            }
         }
     }
     
