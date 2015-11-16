@@ -38,7 +38,7 @@ namespace PuzzleStore
         /// </summary>
         public VirtualCurrency[] GetCurrencies()
         {
-            return new VirtualCurrency[] { TEN_TIPS_CURRENCY, FIFTY_TIPS_CURRENCY, HUNDRED_TIPS_CURRENCY, REMOVEADS_CURRENCY, UNLOCKLEVEL_CURRENCY };
+            return new VirtualCurrency[] { TEN_TIPS_CURRENCY, FIFTY_TIPS_CURRENCY, HUNDRED_TIPS_CURRENCY, REMOVEADS_CURRENCY, UNLOCKLEVEL_CURRENCY, UNLOCKALLLEVELS_CURRENCY };
         }
 
         /// <summary>
@@ -54,7 +54,7 @@ namespace PuzzleStore
         /// </summary>
         public VirtualCurrencyPack[] GetCurrencyPacks()
         {
-            return new VirtualCurrencyPack[] { FIFTYTIPS_PACK, TENTIPS_PACK, HUNDREDTIPS_PACK, REMOVEADS_PACK, UNLOCKLEVEL_PACK };
+            return new VirtualCurrencyPack[] { FIFTYTIPS_PACK, TENTIPS_PACK, HUNDREDTIPS_PACK, REMOVEADS_PACK, UNLOCKLEVEL_PACK, UNLOCKALLLEVELS_PACK };
         }
 
         /// <summary>
@@ -79,6 +79,8 @@ namespace PuzzleStore
 
         public const string UNLOCKLEVEL_PACK_ID = "unlocklevel";
 
+        public const string UNLOCKALLLEVELS_PACK_ID = "unlockalllevel";
+
         public const string TENTIPS_ITEM_ID = "tentips";
 
         public const string FIFTY_ITEM_ID = "fiveteentips";
@@ -88,6 +90,8 @@ namespace PuzzleStore
         public const string REMOVEADS_ITEM_ID = "RemoveAds";
 
         public const string UNLOCKLEVEL_ITEM_ID = "Unlock_Level";
+
+        public const string UNLOCKALLLEVELS_ITEM_ID = "Unlock_all_levels";
 
 
         /** Virtual Currencies **/
@@ -115,6 +119,11 @@ UNLOCKLEVEL_PACK_ID                         // item id
         "HundredTips",                                      // name
         "",                                             // description
         HUNDRED_TIPS_PACK_ID                      // item id
+        );
+        public static VirtualCurrency UNLOCKALLLEVELS_CURRENCY = new VirtualCurrency(
+        "Unlock_all_levels",                                      // name
+        "",                                             // description
+        UNLOCKALLLEVELS_PACK_ID                      // item id
         );
         /** Virtual Currency Packs **/
         public static VirtualCurrencyPack REMOVEADS_PACK = new VirtualCurrencyPack(
@@ -159,10 +168,18 @@ UNLOCKLEVEL_PACK_ID                         // item id
                 HUNDRED_TIPS_PACK_ID,                        // the currency associated with this pack
                 new PurchaseWithMarket(HUNDRED_TIPS_PACK_ID, 4.99)
         );
+        public static VirtualCurrencyPack UNLOCKALLLEVELS_PACK = new VirtualCurrencyPack(
+        "UNLCOK ALL LEVELS",                                  // name
+        "UNLOCK ALL LEVELS",                     // description
+        UNLOCKALLLEVELS_ITEM_ID,                                  // item id
+        1,                                            // number of currencies in the pack
+        UNLOCKALLLEVELS_PACK_ID,                        // the currency associated with this pack
+        new PurchaseWithMarket(UNLOCKALLLEVELS_PACK_ID, 49.99)
+);
 
         /** Virtual Categories **/
         public static VirtualCategory GENERAL_CATEGORY = new VirtualCategory(
-                "General", new List<string>(new string[] { TENTIPS_ITEM_ID, FIFTY_ITEM_ID, HUNDRED_ITEM_ID, REMOVEADS_ITEM_ID, UNLOCKLEVEL_ITEM_ID })
+                "General", new List<string>(new string[] { TENTIPS_ITEM_ID, FIFTY_ITEM_ID, HUNDRED_ITEM_ID, REMOVEADS_ITEM_ID, UNLOCKLEVEL_ITEM_ID, UNLOCKALLLEVELS_ITEM_ID})
         );
 
 

@@ -5,6 +5,9 @@ using Soomla.Store;
 using PuzzleStore;
 
 public class ButtonScript : MonoBehaviour {
+    public GameObject MainMenuScene;
+    public GameObject LevelsMenuScene;
+    public GameObject StoreScene;
     void Start()
     {
         if (!PlayerPrefs.HasKey("Level1"))
@@ -60,11 +63,13 @@ public class ButtonScript : MonoBehaviour {
     {
         if (name == "LevelsButton")
         {
-            Application.LoadLevel("LevelsMenuScene");
+            LevelsMenuScene.SetActive(true);
+            GameObject.Find("MainMenuScene").SetActive(false);
         }
         else if (name == "BackToMainMenuButton")
         {
-            Application.LoadLevel("MainMenuScene");
+            MainMenuScene.SetActive(true);
+            transform.parent.parent.parent.parent.parent.gameObject.SetActive(false);
         }
         else if (name == "QuitButton")
         {
@@ -83,7 +88,8 @@ public class ButtonScript : MonoBehaviour {
         }
         else if (name == "StoreButton")
         {
-            Application.LoadLevel("StoreScene");
+            StoreScene.SetActive(true);
+            GameObject.Find("MainMenuScene").SetActive(false);
         }
         else if (name == "TenTipsButton")
         {
@@ -121,6 +127,18 @@ public class ButtonScript : MonoBehaviour {
             }
 
         }
+        else if (name == "UnlockAllLevelsButton")
+        {
+            int c = 1;
+            while (c <100 && PlayerPrefs.GetInt("Level" + c) >= 0)
+            {
+                c++;
+            }
+            if (c < BoxesScript.LEVEL_COUNT)
+            {
+                StoreInventory.BuyItem(PuzzleStore.PuzzleStoreAssets.UNLOCKALLLEVELS_ITEM_ID);
+            }
+        }
 
     }
 
@@ -133,6 +151,39 @@ public class ButtonScript : MonoBehaviour {
             if (GoogleMobileAdsDemoScript.interstitial != null) GoogleMobileAdsDemoScript.interstitial.Destroy();
         }
     }
+    public void LockPanel()
+    {
+        GameObject.Find("Camera").GetComponent<ShowMessageScript>().MessageStatus.SetActive(true);
+        GameObject.Find("RemoveAdsButton").GetComponent<BoxCollider>().enabled = false;
+        GameObject.Find("RemoveAdsButton").GetComponent<UIButton>().enabled = false;
+        GameObject.Find("OpenNextLevelButton").GetComponent<BoxCollider>().enabled = false;
+        GameObject.Find("OpenNextLevelButton").GetComponent<UIButton>().enabled = false;
+        GameObject.Find("TenTipsButton").GetComponent<BoxCollider>().enabled = false;
+        GameObject.Find("TenTipsButton").GetComponent<UIButton>().enabled = false;
+        GameObject.Find("FiveteenTipsButton").GetComponent<BoxCollider>().enabled = false;
+        GameObject.Find("FiveteenTipsButton").GetComponent<UIButton>().enabled = false;
+        GameObject.Find("HundredTipsButton").GetComponent<BoxCollider>().enabled = false;
+        GameObject.Find("HundredTipsButton").GetComponent<UIButton>().enabled = false;
+        GameObject.Find("UnlockAllLevelsButton").GetComponent<BoxCollider>().enabled = false;
+        GameObject.Find("UnlockAllLevelsButton").GetComponent<UIButton>().enabled = false;
+    }
+    public void UnlockPanel()
+    {
+
+        GameObject.Find("RemoveAdsButton").GetComponent<BoxCollider>().enabled = true;
+        GameObject.Find("RemoveAdsButton").GetComponent<UIButton>().enabled = true;
+        GameObject.Find("OpenNextLevelButton").GetComponent<BoxCollider>().enabled = true;
+        GameObject.Find("OpenNextLevelButton").GetComponent<UIButton>().enabled = true;
+        GameObject.Find("TenTipsButton").GetComponent<BoxCollider>().enabled = true;
+        GameObject.Find("TenTipsButton").GetComponent<UIButton>().enabled = true;
+        GameObject.Find("FiveteenTipsButton").GetComponent<BoxCollider>().enabled = true;
+        GameObject.Find("FiveteenTipsButton").GetComponent<UIButton>().enabled = true;
+        GameObject.Find("HundredTipsButton").GetComponent<BoxCollider>().enabled = true;
+        GameObject.Find("HundredTipsButton").GetComponent<UIButton>().enabled = true;
+        GameObject.Find("UnlockAllLevelsButton").GetComponent<BoxCollider>().enabled = true;
+        GameObject.Find("UnlockAllLevelsButton").GetComponent<UIButton>().enabled = true;
+        GameObject.Find("Camera").GetComponent<ShowMessageScript>().MessageStatus.SetActive(false);
+    }
     void Update()
     {
         if (Application.loadedLevelName == "StoreScene")
@@ -141,46 +192,56 @@ public class ButtonScript : MonoBehaviour {
             {
                 PlayerPrefs.SetInt("Hints", PlayerPrefs.GetInt("Hints") + 100);
                 StoreInventory.TakeItem(PuzzleStore.PuzzleStoreAssets.HUNDRED_TIPS_PACK_ID, 1);
-                GameObject.Find("Camera").GetComponent<ShowMessageScript>().MessageStatus.SetActive(true);
-                GameObject.Find("Panel").SetActive(false);
+              
             }
             else if (StoreInventory.GetItemBalance(PuzzleStore.PuzzleStoreAssets.REMOVEADS_PACK_ID) > 0)
             {
                 StoreInventory.TakeItem(PuzzleStore.PuzzleStoreAssets.REMOVEADS_PACK_ID, 1);
                 PlayerPrefs.SetInt("Adverts", 0);
-                GameObject.Find("Camera").GetComponent<ShowMessageScript>().MessageStatus.SetActive(true);
                 if (GoogleMobileAdsDemoScript.bannerView != null) GoogleMobileAdsDemoScript.bannerView.Hide();
                 if (GoogleMobileAdsDemoScript.interstitial != null) GoogleMobileAdsDemoScript.interstitial.Destroy();
                 if (GoogleMobileAdsDemoScript.bannerView != null) GoogleMobileAdsDemoScript.bannerView.Destroy();
-                GameObject.Find("Panel").SetActive(false);
+                LockPanel();
             }
             else if (StoreInventory.GetItemBalance(PuzzleStore.PuzzleStoreAssets.TEN_TIPS_PACK_ID) > 0)
             {
-                GameObject.Find("Camera").GetComponent<ShowMessageScript>().MessageStatus.SetActive(true);
+                
                 PlayerPrefs.SetInt("Hints", PlayerPrefs.GetInt("Hints") + 10);
                 StoreInventory.TakeItem(PuzzleStore.PuzzleStoreAssets.TEN_TIPS_PACK_ID, 1);
-                GameObject.Find("Panel").SetActive(false);
+                LockPanel();
             }
             else if (StoreInventory.GetItemBalance(PuzzleStore.PuzzleStoreAssets.FIFTY_TIPS_PACK_ID) > 0)
             {
-                GameObject.Find("Camera").GetComponent<ShowMessageScript>().MessageStatus.SetActive(true);
+                
                 PlayerPrefs.SetInt("Hints", PlayerPrefs.GetInt("Hints") + 50);
                 StoreInventory.TakeItem(PuzzleStore.PuzzleStoreAssets.FIFTY_TIPS_PACK_ID, 1);
-                GameObject.Find("Panel").SetActive(false);
+                LockPanel();
             }
-            else if (StoreInventory.GetItemBalance(PuzzleStore.PuzzleStoreAssets.UNLOCKLEVEL_PACK_ID) > 0 && Application.loadedLevelName == "StoreScene")
+            else if (StoreInventory.GetItemBalance(PuzzleStore.PuzzleStoreAssets.UNLOCKLEVEL_PACK_ID) > 0)
             {
                 int c = 1;
                 while (PlayerPrefs.GetInt("Level" + c) >= 0)
                 {
                     c++;
                 }
-                GameObject.Find("Camera").GetComponent<ShowMessageScript>().MessageStatus.SetActive(true);
+                
                 StoreInventory.TakeItem(PuzzleStore.PuzzleStoreAssets.UNLOCKLEVEL_PACK_ID, 1);
                 PlayerPrefs.SetInt("Level" + c, 0);
-                GameObject.Find("Panel").SetActive(false);
+                LockPanel();
             }
-            
+            else if (StoreInventory.GetItemBalance(PuzzleStore.PuzzleStoreAssets.UNLOCKALLLEVELS_PACK_ID) > 0)
+            {
+                for (int c = 1; c <= 100; c++)
+                {
+                    if (PlayerPrefs.GetInt("Level" + c) < 0)
+                    {
+                        PlayerPrefs.SetInt("Level" + c, 0);
+                    }
+                }
+
+                StoreInventory.TakeItem(PuzzleStore.PuzzleStoreAssets.UNLOCKALLLEVELS_PACK_ID, 1);
+                LockPanel();
+            }
         }
         else if (Application.loadedLevelName == "LevelsMenuScene")
         {
