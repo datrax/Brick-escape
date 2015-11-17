@@ -27,10 +27,7 @@ public class Initializer : MonoBehaviour
     // Use this for initialization
     public void Start()
     {
-        if (!PlayerPrefs.HasKey("NewGame"))
-        {
-            PlayerPrefs.SetInt("NewGame", 1);
-        }
+
         if (!PlayerPrefs.HasKey("Hints"))
         {
             PlayerPrefs.SetInt("Hints", 5);
@@ -57,10 +54,9 @@ public class Initializer : MonoBehaviour
             }
         }
 
-        if (BoxesScript.ApplicationModel.LoadLevel == -1)
-        {
+
             BoxesScript.ApplicationModel.LoadLevel = lev - 1;
-        }
+        
         var level = BoxesScript.ApplicationModel.LoadLevel;
         DestroyOldBlocks();
         LoadLevel(level);
@@ -263,6 +259,7 @@ public class Initializer : MonoBehaviour
             t.GetComponent<BlockScript>().MoveToGrid();
         }
     }
+    bool init = false;
     // Update is called once per frame
     void Update()
     {

@@ -11,6 +11,7 @@ public class ButtonScript : MonoBehaviour {
     {
         Initializer.CurrentScene = scene;
     }
+    public GameObject ExitMessage;
     public GameObject MainMenuScene;
     public GameObject LevelsMenuScene;
     public GameObject StoreScene;
@@ -30,7 +31,7 @@ public class ButtonScript : MonoBehaviour {
         {
             PlayerPrefs.SetInt("Adverts", 1);
         }
-        //PlayerPrefs.DeleteAll();
+        // PlayerPrefs.DeleteAll();
         //print("deleted");
     }
   /*  public void LoadLevel(string name)
@@ -96,6 +97,16 @@ public class ButtonScript : MonoBehaviour {
         StoreInventory.BuyItem(PuzzleStoreAssets.UNLOCKLEVEL_ITEM_ID);
 
     }
+    public void ActiveMainMenuButtons(bool active)
+    {
+        GameObject.Find("PlayButton").GetComponent<BoxCollider>().enabled = active;
+        GameObject.Find("LevelsButton").GetComponent<BoxCollider>().enabled = active;
+        GameObject.Find("StoreButton").GetComponent<BoxCollider>().enabled = active;
+        GameObject.Find("QuitButton").GetComponent<BoxCollider>().enabled = active;
+        GameObject.Find("FacebookButton").GetComponent<BoxCollider>().enabled = active;
+        GameObject.Find("GooglePlayButton").GetComponent<BoxCollider>().enabled = active;
+        GameObject.Find("RateButton").GetComponent<BoxCollider>().enabled = active;
+    }
     void OnClick()
     {
         if (name == "LevelsButton")
@@ -115,7 +126,8 @@ public class ButtonScript : MonoBehaviour {
         }
         else if (name == "QuitButton")
         {
-            Application.Quit();
+            ActiveMainMenuButtons(false);
+            ExitMessage.SetActive(true);
         }
         else if (name == "PlayButton")
         {
@@ -131,7 +143,9 @@ public class ButtonScript : MonoBehaviour {
             else
             {
                 Initializer.CurrentScene = HelpScene;
+                HelpScene.SetActive(true);
                 MainMenuScene.SetActive(false);
+                PlayerPrefs.SetInt("NewGame", 1);
             }
         }
         else if (name == "StoreButton")
