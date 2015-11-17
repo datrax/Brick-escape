@@ -8,6 +8,7 @@ public class ButtonScript : MonoBehaviour {
     public GameObject MainMenuScene;
     public GameObject LevelsMenuScene;
     public GameObject StoreScene;
+    public GameObject GameScene;
     void Start()
     {
         if (!PlayerPrefs.HasKey("Level1"))
@@ -31,6 +32,12 @@ public class ButtonScript : MonoBehaviour {
         BoxesScript.ApplicationModel.LastBlockMoved = "";
         Application.LoadLevel(name);
     }
+
+    public void BackToMainMenu()
+    {
+        GameScene.SetActive(false);
+        MainMenuScene.SetActive(true);
+    }
     public void LoadNextLevel()
     {
         if (PlayerPrefs.HasKey("Level" + (BoxesScript.ApplicationModel.LoadLevel + 1)))
@@ -47,11 +54,11 @@ public class ButtonScript : MonoBehaviour {
             }
             BoxesScript.ApplicationModel.LoadLevel++;
             BoxesScript.LoadLevel(BoxesScript.ApplicationModel.LoadLevel);
-            Application.LoadLevel("GameScene");
+            //Application.LoadLevel("GameScene");
         }
         else
         {
-            Application.LoadLevel("MainMenuScene");
+            BackToMainMenu();
         }
     }
     public void BuyLevel()
@@ -79,7 +86,9 @@ public class ButtonScript : MonoBehaviour {
         {
             if (PlayerPrefs.HasKey("NewGame"))
             {
-                Application.LoadLevel("GameScene");
+               // Application.LoadLevel("GameScene");
+               GameScene.SetActive(true);
+               MainMenuScene.SetActive(false);
             }
             else
             {

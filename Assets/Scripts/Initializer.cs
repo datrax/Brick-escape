@@ -21,7 +21,7 @@ public class Initializer : MonoBehaviour
     public float cellSize = 49;
 
     // Use this for initialization
-    void Start()
+    public void Start()
     {
         if (!PlayerPrefs.HasKey("NewGame"))
         {
@@ -81,7 +81,7 @@ public class Initializer : MonoBehaviour
     public void LoadLevel(int number)
     {
 
-        //    DestroyOldBlocks();
+            DestroyOldBlocks();
         string level = Keeper.Levels[number - 1];
 
         for (int i = 0; i < level.Length; i += 4)
@@ -179,10 +179,10 @@ public class Initializer : MonoBehaviour
     }
     public void DestroyOldBlocks()
     {
-        var oldBlocks = GameObject.FindGameObjectsWithTag("Block");
-        foreach (var block in oldBlocks)
+        var amount = GameObject.Find("Blocks").transform.childCount;
+        for (int i=0;i<amount;i++ )
         {
-            Destroy(block);
+            Destroy(GameObject.Find("Blocks").transform.GetChild(i).gameObject);
         }
 
     }
@@ -227,7 +227,8 @@ public class Initializer : MonoBehaviour
         {
             t.GetComponent<BlockScript>().codeName = figure.ToString() + x.ToString() + y.ToString();
             t.tag = "Block";
-            t.transform.parent = this.transform;
+         //   t.transform.parent = this.transform;
+            t.transform.parent = GameObject.Find("Blocks").transform;
             t.transform.localPosition = new Vector3(X, Y, 0);
             t.transform.localScale = new Vector3(Scalar, Scalar, 1);
             t.GetComponent<BlockScript>().MoveToGrid();

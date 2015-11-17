@@ -27,13 +27,7 @@ public class SolveThePuzzle : MonoBehaviour
         GameObject.Find("LoadAnimation").GetComponent<SpriteRenderer>().enabled = (false);
     }
 
-    void OnApplicationQuit()
-    {
-        if (t != null)
-        {
-            t.Abort();
-        }
-    }
+
 
     public bool solved = false;
     public bool solving = false;
@@ -61,7 +55,6 @@ public class SolveThePuzzle : MonoBehaviour
 
     private List<string> steps = new List<string>();
     public int stepNumber = 0;
-    private Thread t;
     public void Solve()
     {
         if(solving)return;

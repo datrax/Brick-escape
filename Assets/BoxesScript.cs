@@ -12,6 +12,8 @@ public class BoxesScript : MonoBehaviour
     public Texture ThreeStar;
     public GameObject[] Boxes;
     private Scrollbar scrollbar;
+    public GameObject LevelScene;
+    public GameObject GameScene;
     void Start()
     {
         if (!PlayerPrefs.HasKey("Level1"))
@@ -37,12 +39,19 @@ public class BoxesScript : MonoBehaviour
         ApplicationModel.LoadLevel = number;
         ApplicationModel.steps = 0;
         ApplicationModel.LastBlockMoved = "";
-        Application.LoadLevel("GameScene");
+        //  Application.LoadLevel("GameScene");
+      /*  GameScene.SetActive(true);
+        LevelScene.SetActive(false);
+        GameScene.GetComponent<Initializer>().Start();*/
+      
     }
     public void LoadLvlv(int number)
     {
-        ApplicationModel.LoadLevel = number;
-        Application.LoadLevel("GameScene");
+       // ApplicationModel.LoadLevel = number;
+        //Application.LoadLevel("GameScene");
+        GameScene.SetActive(true);
+        LevelScene.SetActive(false);
+      //  GameScene.transform.FindChild("Canvas").GetComponent<Initializer>().Start();
     }
     public void ShowBuyMessage(int number)
     {
