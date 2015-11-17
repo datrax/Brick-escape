@@ -92,6 +92,10 @@ public class ButtonScript : MonoBehaviour {
             BackToMainMenu();
         }
     }
+    public void Exit()
+    {
+        Application.Quit();
+    }
     public void BuyLevel()
     {
         StoreInventory.BuyItem(PuzzleStoreAssets.UNLOCKLEVEL_ITEM_ID);
@@ -137,7 +141,7 @@ public class ButtonScript : MonoBehaviour {
                 // GameScene.SetActive(true);
                 Initializer.CurrentScene = GameScene;
                 Initializer.Canvas.SetActive(true);
-               MainMenuScene.SetActive(false);
+                MainMenuScene.SetActive(false);
                 Initializer.Canvas.GetComponent<Initializer>().Start();
             }
             else
@@ -194,7 +198,7 @@ public class ButtonScript : MonoBehaviour {
         else if (name == "UnlockAllLevelsButton")
         {
             int c = 1;
-            while (c <100 && PlayerPrefs.GetInt("Level" + c) >= 0)
+            while (c < 100 && PlayerPrefs.GetInt("Level" + c) >= 0)
             {
                 c++;
             }
