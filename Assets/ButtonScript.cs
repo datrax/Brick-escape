@@ -7,6 +7,10 @@ using PuzzleStore;
 using UnityEngine.UI;
 
 public class ButtonScript : MonoBehaviour {
+    public void SetScene(GameObject scene)
+    {
+        Initializer.CurrentScene = scene;
+    }
     public GameObject MainMenuScene;
     public GameObject LevelsMenuScene;
     public GameObject StoreScene;
@@ -111,8 +115,9 @@ public class ButtonScript : MonoBehaviour {
         {
             if (PlayerPrefs.HasKey("NewGame"))
             {
-               // Application.LoadLevel("GameScene");
-            //   GameScene.SetActive(true);
+                // Application.LoadLevel("GameScene");
+                //   GameScene.SetActive(true);
+                Initializer.CurrentScene = GameObject.Find("GameScene");
                MainMenuScene.SetActive(false);
             }
             else
