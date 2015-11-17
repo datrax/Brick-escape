@@ -15,6 +15,7 @@ public class ButtonScript : MonoBehaviour {
     public GameObject LevelsMenuScene;
     public GameObject StoreScene;
     public GameObject GameScene;
+    public GameObject HelpScene;
     void Start()
     {
         if (!PlayerPrefs.HasKey("Level1"))
@@ -99,13 +100,18 @@ public class ButtonScript : MonoBehaviour {
     {
         if (name == "LevelsButton")
         {
+            Initializer.Canvas.SetActive(false);
             LevelsMenuScene.SetActive(true);
+            Initializer.CurrentScene = LevelsMenuScene;
             GameObject.Find("MainMenuScene").SetActive(false);
+            GameObject.Find("InvisibleScroll").GetComponent<BoxesScript>().ShowBoxes();
         }
         else if (name == "BackToMainMenuButton")
         {
             MainMenuScene.SetActive(true);
+            Initializer.CurrentScene = MainMenuScene;
             transform.parent.parent.parent.parent.parent.gameObject.SetActive(false);
+            Initializer.Canvas.SetActive(false);
         }
         else if (name == "QuitButton")
         {
@@ -116,19 +122,24 @@ public class ButtonScript : MonoBehaviour {
             if (PlayerPrefs.HasKey("NewGame"))
             {
                 // Application.LoadLevel("GameScene");
-                //   GameScene.SetActive(true);
-                Initializer.CurrentScene = GameObject.Find("GameScene");
+                // GameScene.SetActive(true);
+                Initializer.CurrentScene = GameScene;
+                Initializer.Canvas.SetActive(true);
                MainMenuScene.SetActive(false);
+                Initializer.Canvas.GetComponent<Initializer>().Start();
             }
             else
             {
-                Application.LoadLevel("HelpScene");
+                Initializer.CurrentScene = HelpScene;
+                MainMenuScene.SetActive(false);
             }
         }
         else if (name == "StoreButton")
         {
+            Initializer.Canvas.SetActive(false);
             StoreScene.SetActive(true);
-            GameObject.Find("MainMenuScene").SetActive(false);
+            Initializer.CurrentScene = StoreScene;
+            MainMenuScene.SetActive(false);
         }
         else if (name == "TenTipsButton")
         {
@@ -225,7 +236,13 @@ public class ButtonScript : MonoBehaviour {
     }
     void Update()
     {
-        if (Application.loadedLevelName == "StoreScene")
+        if (Initializer.CurrentScene == null)
+        {
+            Initializer.CurrentScene = GameObject.Find("MainMenuScene");
+            Initializer.Canvas = GameObject.Find("Canvas");
+            Initializer.Canvas.SetActive(false);
+        }
+        if (Initializer.CurrentScene.name == "StoreScene")
         {
             if (StoreInventory.GetItemBalance(PuzzleStore.PuzzleStoreAssets.HUNDRED_TIPS_PACK_ID) > 0)
             {
@@ -282,13 +299,14 @@ public class ButtonScript : MonoBehaviour {
                 LockPanel();
             }
         }
-        else if (Application.loadedLevelName == "LevelsMenuScene")
+        else if (Initializer.CurrentScene.name == "LevelsMenuScene")
         {
             if (StoreInventory.GetItemBalance(PuzzleStore.PuzzleStoreAssets.UNLOCKLEVEL_PACK_ID) > 0)
             {
                 PlayerPrefs.SetInt("Level" + GameObject.Find("Level").GetComponent<UnityEngine.UI.Text>().text.Remove(0, 6), 0);
                 GameObject.Find("LevelMenu").GetComponent<ShowMessageScript>().MessageStatus.SetActive(true);
                 StoreInventory.TakeItem(PuzzleStore.PuzzleStoreAssets.UNLOCKLEVEL_PACK_ID, 1);
+                GameObject.Find("InvisibleScroll").GetComponent<BoxesScript>().ShowBoxes();
             }
         }
     }

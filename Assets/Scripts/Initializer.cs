@@ -8,6 +8,7 @@ using Assets.Scripts;
 
 public class Initializer : MonoBehaviour
 {
+    public static GameObject Canvas;
     public static GameObject CurrentScene;
     public Sprite CongratText1;
     public Sprite CongratText2;
