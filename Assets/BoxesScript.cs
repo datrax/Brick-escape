@@ -47,11 +47,11 @@ public class BoxesScript : MonoBehaviour
     }
     public void LoadLvlv(int number)
     {
-       // ApplicationModel.LoadLevel = number;
+       ApplicationModel.LoadLevel = number;
         //Application.LoadLevel("GameScene");
-        GameScene.SetActive(true);
+      //  GameScene.SetActive(true);
         LevelScene.SetActive(false);
-      //  GameScene.transform.FindChild("Canvas").GetComponent<Initializer>().Start();
+        GameScene.transform.FindChild("Canvas").GetComponent<Initializer>().Start();
     }
     public void ShowBuyMessage(int number)
     {

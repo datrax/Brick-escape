@@ -61,6 +61,7 @@ public class SolveThePuzzle : MonoBehaviour
         if (PlayerPrefs.GetInt("Hints") >= 1)
         {
             solving = true;
+            stepNumber = 0;
             steps = Keeper.solvers[BoxesScript.ApplicationModel.LoadLevel - 1];
             BoxesScript.ApplicationModel.steps = 0;
             GameObject.Find("Step").GetComponent<Text>().text = "moves : " + BoxesScript.ApplicationModel.steps;

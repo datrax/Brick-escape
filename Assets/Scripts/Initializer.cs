@@ -1,6 +1,8 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using System.IO;
+using System.Net;
 using System.Xml;
 using Assets.Scripts;
 
@@ -55,10 +57,12 @@ public class Initializer : MonoBehaviour
             BoxesScript.ApplicationModel.LoadLevel = lev - 1;
         }
         var level = BoxesScript.ApplicationModel.LoadLevel;
+        DestroyOldBlocks();
         LoadLevel(level);
+  
         GameObject.Find("PuzzleNumber").GetComponent<UnityEngine.UI.Text>().text = level.ToString();
 
-        if (PlayerPrefs.GetInt("Adverts") == 1)
+        if (PlayerPrefs.GetInt("Adverts") == 1&&CheckForInternetConnection())
         {
             if (GoogleMobileAdsDemoScript.bannerView != null)
             {
@@ -76,12 +80,32 @@ public class Initializer : MonoBehaviour
             GameObject.Find("RefreshButton").transform.localPosition = new Vector3(GameObject.Find("RefreshButton").transform.localPosition.x, -235.5f);
             GameObject.Find("SoundButton").transform.localPosition = new Vector3(GameObject.Find("SoundButton").transform.localPosition.x, -235.5f);
         }
+     
     }
-
+    bool CheckForInternetConnection()
+    {
+        WebClient client =null;
+        Stream stream=null;
+        try
+        {
+            client = new System.Net.WebClient();
+            stream = client.OpenRead("http://www.google.com");
+            return true;
+        }
+        catch 
+        {
+            return false;
+        }
+        finally
+        {
+            if (client!=null) { client.Dispose(); }
+            if (stream!= null) { stream.Dispose(); }
+        }
+    }
     public void LoadLevel(int number)
     {
 
-            DestroyOldBlocks();
+           // DestroyOldBlocks();
         string level = Keeper.Levels[number - 1];
 
         for (int i = 0; i < level.Length; i += 4)

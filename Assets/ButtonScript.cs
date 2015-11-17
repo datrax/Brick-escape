@@ -1,8 +1,10 @@
 ﻿using UnityEngine;
 using System.Collections;
+using Assets.Scripts;
 using Soomla;
 using Soomla.Store;
 using PuzzleStore;
+using UnityEngine.UI;
 
 public class ButtonScript : MonoBehaviour {
     public GameObject MainMenuScene;
@@ -26,16 +28,33 @@ public class ButtonScript : MonoBehaviour {
         //PlayerPrefs.DeleteAll();
         //print("deleted");
     }
-    public void LoadLevel(string name)
+  /*  public void LoadLevel(string name)
     {
         BoxesScript.ApplicationModel.steps = 0;
         BoxesScript.ApplicationModel.LastBlockMoved = "";
-        Application.LoadLevel(name);
-    }
+     //   Application.LoadLevel(name);
+    }*/
 
+    public void RefreshLevel()
+    {
+        GameObject.Find("Solver").GetComponent<SolveThePuzzle>().solving = false;
+        transform.parent.GetComponent<Initializer>().Start();
+        BoxesScript.ApplicationModel.steps = 0;
+        BoxesScript.ApplicationModel.LastBlockMoved = "";
+        GameObject.Find("Step").GetComponent<Text>().text = "moves : " + BoxesScript.ApplicationModel.steps;
+    }
+    public void RefreshLevelAndHideCongratMessage()
+    {
+        GameObject.Find("Solver").GetComponent<SolveThePuzzle>().solving = false;
+        transform.parent.parent.GetComponent<Initializer>().Start();
+        BoxesScript.ApplicationModel.steps = 0;
+        BoxesScript.ApplicationModel.LastBlockMoved = "";
+        GameObject.Find("Step").GetComponent<Text>().text = "moves : " + BoxesScript.ApplicationModel.steps;
+        GameObject.Find("ShowMessage").SetActive(false);
+    }
     public void BackToMainMenu()
     {
-        GameScene.SetActive(false);
+     //   GameScene.SetActive(false);
         MainMenuScene.SetActive(true);
     }
     public void LoadNextLevel()
@@ -53,8 +72,14 @@ public class ButtonScript : MonoBehaviour {
                 }
             }
             BoxesScript.ApplicationModel.LoadLevel++;
-            BoxesScript.LoadLevel(BoxesScript.ApplicationModel.LoadLevel);
-            //Application.LoadLevel("GameScene");
+          //  BoxesScript.LoadLevel(BoxesScript.ApplicationModel.LoadLevel);
+
+            GameObject.Find("Solver").GetComponent<SolveThePuzzle>().solving = false;
+            transform.parent.parent.GetComponent<Initializer>().Start();
+            BoxesScript.ApplicationModel.steps = 0;
+            BoxesScript.ApplicationModel.LastBlockMoved = "";
+            GameObject.Find("Step").GetComponent<Text>().text = "moves : " + BoxesScript.ApplicationModel.steps;
+            GameObject.Find("ShowMessage").SetActive(false);
         }
         else
         {
@@ -87,7 +112,7 @@ public class ButtonScript : MonoBehaviour {
             if (PlayerPrefs.HasKey("NewGame"))
             {
                // Application.LoadLevel("GameScene");
-               GameScene.SetActive(true);
+            //   GameScene.SetActive(true);
                MainMenuScene.SetActive(false);
             }
             else
