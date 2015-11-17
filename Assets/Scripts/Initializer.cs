@@ -34,6 +34,9 @@ public class Initializer : MonoBehaviour
             PlayerPrefs.SetInt("Hints", 5);
         }
         GameObject.Find("Solver").transform.GetChild(0).GetComponent<UnityEngine.UI.Text>().text = PlayerPrefs.GetInt("Hints").ToString();
+		if(GameObject.Find("ShowMessage")!=null){
+			GameObject.Find("ShowMessage").SetActive(false);
+		}
         if (!PlayerPrefs.HasKey("Level1"))
         {
             PlayerPrefs.SetInt("Level1", 0);
