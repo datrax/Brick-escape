@@ -31,7 +31,7 @@ public class ButtonScript : MonoBehaviour {
         {
             PlayerPrefs.SetInt("Adverts", 1);
         }
-        // PlayerPrefs.DeleteAll();
+        //PlayerPrefs.DeleteAll();
         //print("deleted");
     }
   /*  public void LoadLevel(string name)
