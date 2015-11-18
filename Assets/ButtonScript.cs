@@ -102,6 +102,16 @@ public class ButtonScript : MonoBehaviour {
         StoreInventory.BuyItem(PuzzleStoreAssets.UNLOCKLEVEL_ITEM_ID);
 
     }
+    public void ActiveMainButtons(bool active)
+    {
+        GameObject.Find("PlayButton").GetComponent<BoxCollider>().enabled = active;
+        GameObject.Find("LevelsButton").GetComponent<BoxCollider>().enabled = active;
+        GameObject.Find("StoreButton").GetComponent<BoxCollider>().enabled = active;
+        GameObject.Find("QuitButton").GetComponent<BoxCollider>().enabled = active;
+        GameObject.Find("FacebookButton").GetComponent<BoxCollider>().enabled = active;
+        GameObject.Find("GooglePlayButton").GetComponent<BoxCollider>().enabled = active;
+        GameObject.Find("RateButton").GetComponent<BoxCollider>().enabled = active;
+    }
     public static void ActiveMainMenuButtons(bool active)
     {
         GameObject.Find("PlayButton").GetComponent<BoxCollider>().enabled = active;
