@@ -60,7 +60,8 @@ public class ButtonScript : MonoBehaviour {
     }
     public void BackToMainMenu()
     {
-     //   GameScene.SetActive(false);
+        //   GameScene.SetActive(false);
+        Initializer.CurrentScene = MainMenuScene;
         MainMenuScene.SetActive(true);
     }
     public void LoadNextLevel()
@@ -101,7 +102,7 @@ public class ButtonScript : MonoBehaviour {
         StoreInventory.BuyItem(PuzzleStoreAssets.UNLOCKLEVEL_ITEM_ID);
 
     }
-    public void ActiveMainMenuButtons(bool active)
+    public static void ActiveMainMenuButtons(bool active)
     {
         GameObject.Find("PlayButton").GetComponent<BoxCollider>().enabled = active;
         GameObject.Find("LevelsButton").GetComponent<BoxCollider>().enabled = active;

@@ -63,8 +63,12 @@ public class Initializer : MonoBehaviour
   
         GameObject.Find("PuzzleNumber").GetComponent<UnityEngine.UI.Text>().text = level.ToString();
 
-        if (PlayerPrefs.GetInt("Adverts") == 1&&CheckForInternetConnection())
+        if (PlayerPrefs.GetInt("Adverts") == 1&&CheckForInternetConnection()&& CurrentScene==GameObject.Find("GameScene"))
         {
+            GameObject.Find("BackToMainMenuScene").transform.localPosition = new Vector3(GameObject.Find("BackToMainMenuScene").transform.localPosition.x, -168f);
+            GameObject.Find("Solver").transform.localPosition = new Vector3(GameObject.Find("Solver").transform.localPosition.x, -168f);
+            GameObject.Find("RefreshButton").transform.localPosition = new Vector3(GameObject.Find("RefreshButton").transform.localPosition.x, -168f);
+            GameObject.Find("SoundButton").transform.localPosition = new Vector3(GameObject.Find("SoundButton").transform.localPosition.x, -168f);
             if (GoogleMobileAdsDemoScript.bannerView != null)
             {
                 GoogleMobileAdsDemoScript.bannerView.Hide();
