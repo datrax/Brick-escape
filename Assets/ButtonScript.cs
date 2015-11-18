@@ -122,11 +122,16 @@ public class ButtonScript : MonoBehaviour {
         GameObject.Find("GooglePlayButton").GetComponent<BoxCollider>().enabled = active;
         GameObject.Find("RateButton").GetComponent<BoxCollider>().enabled = active;
     }
+
+    public void SetCanvasOff()
+    {
+        Initializer.Canvas.SetActive(false);
+    }
     void OnClick()
     {
         if (name == "LevelsButton")
         {
-            Initializer.Canvas.SetActive(false);
+            Initializer.Canvas.SetActive(true);
             LevelsMenuScene.SetActive(true);
             Initializer.CurrentScene = LevelsMenuScene;
             GameObject.Find("MainMenuScene").SetActive(false);
@@ -143,6 +148,7 @@ public class ButtonScript : MonoBehaviour {
         {
             ActiveMainMenuButtons(false);
             ExitMessage.SetActive(true);
+            BackAndroidButtonScript.EscapeEnabled = true;
         }
         else if (name == "PlayButton")
         {
@@ -262,6 +268,7 @@ public class ButtonScript : MonoBehaviour {
         GameObject.Find("UnlockAllLevelsButton").GetComponent<BoxCollider>().enabled = true;
         GameObject.Find("UnlockAllLevelsButton").GetComponent<UIButton>().enabled = true;
         GameObject.Find("Camera").GetComponent<ShowMessageScript>().MessageStatus.SetActive(false);
+        BackAndroidButtonScript.EscapeEnabled = false;
     }
     void Update()
     {

@@ -40,7 +40,7 @@ public class Initializer : MonoBehaviour
         {
             PlayerPrefs.SetInt("Level1", 0);
         }
-        int lev = 1;
+       /* int lev = 1;
 
         while (PlayerPrefs.HasKey("Level" + lev))
         {
@@ -59,8 +59,28 @@ public class Initializer : MonoBehaviour
         
         var level = BoxesScript.ApplicationModel.LoadLevel;
         DestroyOldBlocks();
+        LoadLevel(level);*/
+        int lev = 1;
+
+        while (PlayerPrefs.HasKey("Level" + lev))
+        {
+            if (PlayerPrefs.GetInt("Level" + lev) >= 0)
+            {
+                lev++;
+            }
+            else
+            {
+                break;
+            }
+        }
+
+        if (BoxesScript.ApplicationModel.LoadLevel == -1)
+        {
+            BoxesScript.ApplicationModel.LoadLevel = lev - 1;
+        }
+        var level = BoxesScript.ApplicationModel.LoadLevel;
+        DestroyOldBlocks();
         LoadLevel(level);
-  
         GameObject.Find("PuzzleNumber").GetComponent<UnityEngine.UI.Text>().text = level.ToString();
 
         if (PlayerPrefs.GetInt("Adverts") == 1&&CheckForInternetConnection()&& CurrentScene==GameObject.Find("GameScene"))

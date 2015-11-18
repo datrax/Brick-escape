@@ -51,6 +51,7 @@ public class BoxesScript : MonoBehaviour
         //Application.LoadLevel("GameScene");
       //  GameScene.SetActive(true);
         LevelScene.SetActive(false);
+        Initializer.CurrentScene = GameScene;
         GameScene.transform.FindChild("Canvas").GetComponent<Initializer>().Start();
     }
     public void ShowBuyMessage(int number)
